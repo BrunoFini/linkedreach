@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedReach ‚Äî Prospec√ß√£o LinkedIn</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --azul: #0A66C2;
+  --azul-escuro: #004182;
+  --azul-claro: #EBF5FF;
+  --verde: #057642;
+  --verde-claro: #E7F3EC;
+  --amarelo: #F5A623;
+  --amarelo-claro: #FEF3E2;
+  --cinza-100: #F3F4F6;
+  --cinza-200: #E5E7EB;
+  --cinza-400: #9CA3AF;
+  --cinza-600: #4B5563;
+  --cinza-800: #1F2937;
+  --branco: #FFFFFF;
+  --sombra: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --sombra-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --radius: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: var(--cinza-800); background: var(--cinza-100); }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+input, textarea, select { font: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* ‚îÄ‚îÄ LOGIN ‚îÄ‚îÄ */
+#tela-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #004182 0%, #0A66C2 100%);
+}
+.login-card {
+  background: var(--branco);
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  justify-content: center;
+}
+.login-logo-icon {
+  width: 40px; height: 40px;
+  background: var(--azul);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 20px; font-weight: 900;
+}
+.login-logo span { font-size: 22px; font-weight: 700; color: var(--azul-escuro); }
+.login-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; text-align: center; }
+.login-card p { font-size: 13px; color: var(--cinza-400); text-align: center; margin-bottom: 28px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--cinza-600); }
+.form-group input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--cinza-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  transition: border-color .2s;
+  outline: none;
+}
+.form-group input:focus { border-color: var(--azul); }
+.btn-primario {
+  width: 100%; padding: 12px;
+  background: var(--azul);
+  color: white; border-radius: var(--radius);
+  font-size: 15px; font-weight: 600;
+  transition: background .2s;
+  margin-top: 8px;
+}
+.btn-primario:hover { background: var(--azul-escuro); }
+.btn-primario:disabled { opacity: .6; cursor: not-allowed; }
+.login-toggle { text-align: center; margin-top: 20px; font-size: 13px; color: var(--cinza-400); }
+.login-toggle a { color: var(--azul); font-weight: 600; cursor: pointer; }
+.msg-erro { background: #FEE2E2; color: #DC2626; padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 12px; display: none; }
+
+/* ‚îÄ‚îÄ APP LAYOUT ‚îÄ‚îÄ */
+#app { display: none; min-height: 100vh; }
+.layout { display: flex; height: 100vh; overflow: hidden; }
+
+/* Sidebar */
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  background: var(--branco);
+  border-right: 1px solid var(--cinza-200);
+  display: flex; flex-direction: column;
+  padding: 20px 0;
+}
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--cinza-200);
+  margin-bottom: 12px;
+}
+.sidebar-logo-icon {
+  width: 32px; height: 32px;
+  background: var(--azul);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 16px; font-weight: 900;
+}
+.sidebar-logo span { font-size: 16px; font-weight: 700; color: var(--azul-escuro); }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  border-radius: 0;
+  color: var(--cinza-600);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { background: var(--cinza-100); color: var(--cinza-800); }
+.nav-item.ativo { background: var(--azul-claro); color: var(--azul); border-left-color: var(--azul); font-weight: 600; }
+.nav-item .icone { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-bottom { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--cinza-200); }
+.user-info { display: flex; align-items: center; gap: 10px; }
+.user-avatar { width: 32px; height: 32px; background: var(--azul); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.user-email { font-size: 11px; color: var(--cinza-400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-sair { font-size: 12px; color: var(--cinza-400); cursor: pointer; margin-top: 6px; }
+.btn-sair:hover { color: #DC2626; }
+
+/* Main content */
+.main { flex: 1; overflow-y: auto; }
+.secao { display: none; padding: 28px 32px; max-width: 1100px; }
+.secao.ativa { display: block; }
+.page-header { margin-bottom: 24px; }
+.page-header h1 { font-size: 20px; font-weight: 700; color: var(--cinza-800); }
+.page-header p { font-size: 13px; color: var(--cinza-400); margin-top: 4px; }
+
+/* Cards de stat */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--branco); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--sombra);
+}
+.stat-card .valor { font-size: 28px; font-weight: 800; color: var(--cinza-800); }
+.stat-card .label { font-size: 12px; color: var(--cinza-400); margin-top: 4px; }
+.stat-card .badge-stat { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-top: 8px; }
+.badge-pendente { background: var(--amarelo-claro); color: #B45309; }
+.badge-enviado { background: var(--azul-claro); color: var(--azul); }
+.badge-respondido { background: var(--verde-claro); color: var(--verde); }
+
+/* Tabela de contatos */
+.card { background: var(--branco); border-radius: var(--radius); box-shadow: var(--sombra); }
+.card-header { padding: 16px 20px; border-bottom: 1px solid var(--cinza-200); display: flex; align-items: center; justify-content: space-between; }
+.card-header h3 { font-size: 15px; font-weight: 600; }
+.card-body { padding: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: 11px; font-weight: 600; color: var(--cinza-400); text-transform: uppercase; letter-spacing: .05em; padding: 0 12px 10px; }
+td { padding: 12px; border-top: 1px solid var(--cinza-200); vertical-align: middle; }
+tr:hover td { background: var(--cinza-100); }
+.prospect-info { display: flex; align-items: center; gap: 10px; }
+.prospect-foto { width: 36px; height: 36px; border-radius: 50%; background: var(--azul-claro); display: flex; align-items: center; justify-content: center; color: var(--azul); font-weight: 700; font-size: 14px; flex-shrink: 0; overflow: hidden; }
+.prospect-foto img { width: 100%; height: 100%; object-fit: cover; }
+.prospect-nome { font-weight: 600; font-size: 13px; }
+.prospect-cargo { font-size: 11px; color: var(--cinza-400); }
+.status-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.status-pendente { background: var(--amarelo-claro); color: #B45309; }
+.status-enviado { background: var(--azul-claro); color: var(--azul); }
+.status-respondido { background: var(--verde-claro); color: var(--verde); }
+
+/* A√ß√µes */
+.acoes { display: flex; gap: 6px; }
+.btn-acao {
+  padding: 5px 10px; border-radius: 6px;
+  font-size: 12px; font-weight: 500;
+  transition: all .15s;
+}
+.btn-azul { background: var(--azul-claro); color: var(--azul); }
+.btn-azul:hover { background: var(--azul); color: white; }
+.btn-verde { background: var(--verde-claro); color: var(--verde); }
+.btn-verde:hover { background: var(--verde); color: white; }
+.btn-cinza { background: var(--cinza-100); color: var(--cinza-600); }
+.btn-cinza:hover { background: var(--cinza-200); }
+.btn-vermelho { background: #FEE2E2; color: #DC2626; }
+.btn-vermelho:hover { background: #DC2626; color: white; }
+
+/* Filtros */
+.filtros { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.filtro-input { padding: 8px 12px; border: 1.5px solid var(--cinza-200); border-radius: var(--radius); font-size: 13px; outline: none; transition: border-color .2s; min-width: 160px; }
+.filtro-input:focus { border-color: var(--azul); }
+.filtro-select { padding: 8px 12px; border: 1.5px solid var(--cinza-200); border-radius: var(--radius); font-size: 13px; outline: none; background: white; cursor: pointer; }
+
+/* Buscar prospects */
+.busca-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.busca-resultado {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px; border: 1.5px solid var(--cinza-200);
+  border-radius: var(--radius); background: white;
+  transition: border-color .2s;
+}
+.busca-resultado:hover { border-color: var(--azul); }
+.busca-resultado .foto { width: 44px; height: 44px; border-radius: 50%; background: var(--azul-claro); display: flex; align-items: center; justify-content: center; color: var(--azul); font-weight: 700; font-size: 16px; flex-shrink: 0; overflow: hidden; }
+.busca-resultado .foto img { width: 100%; height: 100%; object-fit: cover; }
+.busca-resultado .info { flex: 1; min-width: 0; }
+.busca-resultado .nome { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.busca-resultado .cargo { font-size: 11px; color: var(--cinza-400); margin-top: 2px; }
+.busca-resultado .empresa { font-size: 11px; color: var(--cinza-600); margin-top: 1px; }
+.busca-resultado .local { font-size: 11px; color: var(--cinza-400); margin-top: 1px; }
+.busca-resultado .btn-add { margin-top: 8px; font-size: 11px; padding: 4px 10px; background: var(--azul); color: white; border-radius: 6px; transition: background .15s; }
+.busca-resultado .btn-add:hover { background: var(--azul-escuro); }
+.busca-resultado .btn-add.adicionado { background: var(--verde); cursor: default; }
+
+/* Gerador de mensagem */
+.gen-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.gen-card { background: var(--branco); border-radius: var(--radius); box-shadow: var(--sombra); padding: 20px; }
+.gen-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--cinza-800); }
+.select-contato {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid var(--cinza-200); border-radius: var(--radius);
+  font-size: 13px; outline: none; background: white; cursor: pointer;
+  margin-bottom: 12px;
+}
+.select-contato:focus { border-color: var(--azul); }
+.template-lista { display: flex; flex-direction: column; gap: 8px; }
+.template-opcao {
+  padding: 10px 14px; border: 1.5px solid var(--cinza-200);
+  border-radius: var(--radius); cursor: pointer;
+  transition: all .15s;
+}
+.template-opcao:hover { border-color: var(--azul); background: var(--azul-claro); }
+.template-opcao.selecionado { border-color: var(--azul); background: var(--azul-claro); }
+.template-opcao .t-nome { font-weight: 600; font-size: 13px; }
+.template-opcao .t-preview { font-size: 11px; color: var(--cinza-400); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.preview-mensagem {
+  background: var(--cinza-100); border-radius: var(--radius);
+  padding: 16px; font-size: 13px; line-height: 1.7;
+  min-height: 120px; margin-bottom: 16px;
+  color: var(--cinza-800); white-space: pre-wrap;
+  border: 1.5px solid var(--cinza-200);
+}
+.preview-placeholder { color: var(--cinza-400); font-style: italic; }
+.btn-copiar {
+  width: 100%; padding: 12px;
+  background: var(--azul); color: white;
+  border-radius: var(--radius); font-size: 14px; font-weight: 600;
+  transition: background .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-copiar:hover { background: var(--azul-escuro); }
+.btn-copiar.copiado { background: var(--verde); }
+.btn-linkedin {
+  width: 100%; padding: 10px;
+  background: var(--cinza-100); color: var(--cinza-800);
+  border-radius: var(--radius); font-size: 13px; font-weight: 500;
+  margin-top: 8px;
+  transition: background .2s;
+}
+.btn-linkedin:hover { background: var(--cinza-200); }
+.info-prospect {
+  background: var(--azul-claro); border-radius: var(--radius);
+  padding: 14px; margin-bottom: 16px;
+  font-size: 13px;
+}
+.info-prospect .nome-dest { font-weight: 700; font-size: 15px; color: var(--azul-escuro); }
+.info-prospect .detalhe { color: var(--cinza-600); font-size: 12px; margin-top: 4px; }
+
+/* Templates CRUD */
+.template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.template-card {
+  background: var(--branco); border-radius: var(--radius);
+  box-shadow: var(--sombra); padding: 20px;
+  border-left: 3px solid var(--azul);
+}
+.template-card.favorito { border-left-color: var(--amarelo); }
+.template-card .t-nome { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.template-card .t-corpo { font-size: 12px; color: var(--cinza-600); margin: 10px 0; line-height: 1.6; max-height: 80px; overflow: hidden; position: relative; }
+.template-card .t-corpo::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px; background: linear-gradient(transparent, white); }
+.estrela { color: var(--amarelo); }
+.estrela-vazia { color: var(--cinza-200); }
+.template-card .t-acoes { display: flex; gap: 8px; margin-top: 12px; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; display: none;
+}
+.modal-overlay.aberto { display: flex; }
+.modal {
+  background: white; border-radius: 12px;
+  padding: 28px; width: 100%; max-width: 520px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-height: 90vh; overflow-y: auto;
+}
+.modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.btn-cancelar { padding: 10px 20px; border: 1.5px solid var(--cinza-200); border-radius: var(--radius); color: var(--cinza-600); }
+.btn-salvar { padding: 10px 20px; background: var(--azul); color: white; border-radius: var(--radius); font-weight: 600; }
+textarea.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cinza-200); border-radius: var(--radius); font-size: 13px; outline: none; resize: vertical; min-height: 120px; }
+textarea.form-ctrl:focus, input.form-ctrl:focus { border-color: var(--azul); }
+input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cinza-200); border-radius: var(--radius); font-size: 13px; outline: none; }
+.form-group-modal { margin-bottom: 14px; }
+.form-group-modal label { display: block; font-size: 12px; font-weight: 600; color: var(--cinza-600); margin-bottom: 6px; }
+.vars-hint { font-size: 11px; color: var(--cinza-400); margin-top: 6px; }
+.vars-hint code { background: var(--cinza-100); padding: 1px 5px; border-radius: 4px; font-family: monospace; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--cinza-800); color: white;
+  padding: 12px 20px; border-radius: var(--radius);
+  font-size: 13px; font-weight: 500;
+  z-index: 9999; display: none;
+  box-shadow: var(--sombra-md);
+  animation: slideIn .3s ease;
+}
+.toast.verde { background: var(--verde); }
+@keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Vazio */
+.vazio { text-align: center; padding: 48px 20px; color: var(--cinza-400); }
+.vazio .icone-vazio { font-size: 48px; margin-bottom: 12px; }
+.vazio p { font-size: 14px; }
+.vazio small { font-size: 12px; }
+
+/* Loading */
+.loading { display: flex; align-items: center; gap: 8px; color: var(--cinza-400); padding: 20px; justify-content: center; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--cinza-200); border-top-color: var(--azul); border-radius: 50%; animation: spin .6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Onboarding */
+.onboarding-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900; display: none; }
+.onboarding-tooltip {
+  position: fixed; background: white; border-radius: 12px;
+  padding: 20px 24px; width: 300px; z-index: 901;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.onboarding-passo { font-size: 11px; color: var(--cinza-400); margin-bottom: 4px; }
+.onboarding-titulo { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.onboarding-desc { font-size: 13px; color: var(--cinza-600); line-height: 1.6; margin-bottom: 16px; }
+.onboarding-btns { display: flex; justify-content: space-between; align-items: center; }
+.btn-onboarding-skip { font-size: 12px; color: var(--cinza-400); cursor: pointer; }
+.btn-onboarding-proximo { padding: 8px 20px; background: var(--azul); color: white; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+/* Banner LGPD */
+.lgpd-banner {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #1e293b; color: white;
+  padding: 16px 24px; z-index: 9998;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; font-size: 13px;
+}
+.lgpd-btns { display: flex; gap: 10px; flex-shrink: 0; }
+.btn-lgpd-ok { padding: 8px 16px; background: var(--azul); color: white; border-radius: 6px; font-size: 13px; cursor: pointer; }
+.btn-lgpd-ess { padding: 8px 16px; border: 1px solid #475569; color: #cbd5e1; border-radius: 6px; font-size: 13px; cursor: pointer; }
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .gen-layout, .template-grid, .busca-grid { grid-template-columns: 1fr; }
+  .sidebar { width: 60px; }
+  .nav-item span, .sidebar-logo span, .user-email, .user-nome { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ‚îÄ‚îÄ TELA DE LOGIN ‚îÄ‚îÄ -->
+<div id="tela-login">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">LR</div>
+      <span>LinkedReach</span>
+    </div>
+    <h2 id="login-titulo">Bem-vindo de volta</h2>
+    <p id="login-subtitulo">Fa√ßa login para acessar seu painel</p>
+    <div class="msg-erro" id="msg-erro"></div>
+    <div class="form-group">
+      <label>E-mail</label>
+      <input type="email" id="email" placeholder="seu@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Senha</label>
+      <input type="password" id="senha" placeholder="‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢" />
+    </div>
+    <button class="btn-primario" id="btn-login" onclick="fazerLogin()">Entrar</button>
+    <div class="login-toggle">
+      <span id="login-toggle-txt">N√£o tem conta?</span>
+      <a onclick="alternarModo()"> <span id="login-toggle-acao">Criar conta</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ‚îÄ‚îÄ APP ‚îÄ‚îÄ -->
+<div id="app">
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">LR</div>
+        <span>LinkedReach</span>
+      </div>
+      <nav>
+        <div class="nav-item ativo" onclick="navegar('dashboard')" id="nav-dashboard">
+          <span class="icone">üè†</span><span>Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="navegar('buscar')" id="nav-buscar">
+          <span class="icone">üîé</span><span>Buscar Prospects</span>
+        </div>
+        <div class="nav-item" onclick="navegar('contatos')" id="nav-contatos">
+          <span class="icone">üë•</span><span>Meus Contatos</span>
+        </div>
+        <div class="nav-item" onclick="navegar('mensagem')" id="nav-mensagem">
+          <span class="icone">‚úçÔ∏è</span><span>Gerar Mensagem</span>
+        </div>
+        <div class="nav-item" onclick="navegar('templates')" id="nav-templates">
+          <span class="icone">üìã</span><span>Templates</span>
+        </div>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div>
+            <div class="user-email" id="user-email-display">‚Äî</div>
+          </div>
+        </div>
+        <div class="btn-sair" onclick="sair()">Sair</div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- DASHBOARD -->
+      <div class="secao ativa" id="secao-dashboard">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Vis√£o geral da sua prospec√ß√£o</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="valor" id="stat-total">0</div>
+            <div class="label">Total de Prospects</div>
+            <span class="badge-stat badge-enviado">Todos</span>
+          </div>
+          <div class="stat-card">
+            <div class="valor" id="stat-pendentes">0</div>
+            <div class="label">Pendentes</div>
+            <span class="badge-stat badge-pendente">Aguardando</span>
+          </div>
+          <div class="stat-card">
+            <div class="valor" id="stat-enviados">0</div>
+            <div class="label">Enviados</div>
+            <span class="badge-stat badge-enviado">Mensagem enviada</span>
+          </div>
+          <div class="stat-card">
+            <div class="valor" id="stat-respondidos">0</div>
+            <div class="label">Respondidos</div>
+            <span class="badge-stat badge-respondido">Com retorno</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Adicionados recentemente</h3>
+            <button class="btn-acao btn-azul" onclick="navegar('buscar')">+ Buscar Prospects</button>
+          </div>
+          <div class="card-body" id="dashboard-recentes">
+            <div class="loading"><div class="spinner"></div> Carregando...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUSCAR PROSPECTS -->
+      <div class="secao" id="secao-buscar">
+        <div class="page-header">
+          <h1>üîé Buscar Prospects</h1>
+          <p>Use os filtros abaixo para encontrar perfis no Apollo.io. Todos os campos s√£o opcionais.</p>
+        </div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-body">
+            <div class="busca-grid">
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Cargo / T√≠tulo</label>
+                <input class="filtro-input" style="width:100%" id="f-cargo" placeholder="ex: CEO, Gerente, Diretor" />
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Fun√ß√£o / √Årea</label>
+                <input class="filtro-input" style="width:100%" id="f-funcao" placeholder="ex: Marketing, Vendas, TI" />
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Empresa</label>
+                <input class="filtro-input" style="width:100%" id="f-empresa" placeholder="ex: Magazine Luiza, iFood" />
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Cidade</label>
+                <input class="filtro-input" style="width:100%" id="f-cidade" placeholder="ex: S√£o Paulo, Curitiba" />
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Estado</label>
+                <select class="filtro-select" style="width:100%" id="f-estado">
+                  <option value="">Todos os estados</option>
+                  <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+                  <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                  <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+                  <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+                  <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+                  <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+                  <option selected>SP</option><option>SE</option><option>TO</option>
+                </select>
+              </div>
+              <div style="display:flex;align-items:flex-end;">
+                <button class="btn-primario" style="width:100%;margin-top:0;" onclick="buscarProspects()">üîé Buscar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultados-busca"></div>
+      </div>
+
+      <!-- MEUS CONTATOS -->
+      <div class="secao" id="secao-contatos">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <h1>üë• Meus Contatos</h1>
+            <p>Gerencie seus prospects e acompanhe o status</p>
+          </div>
+          <button class="btn-acao btn-azul" onclick="abrirModalAdicionarManual()" style="padding:10px 16px;font-size:13px;">+ Adicionar manualmente</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <input class="filtro-input" id="busca-contatos" placeholder="üîç Buscar por nome ou empresa..." oninput="filtrarContatos()" style="flex:1;min-width:200px;" />
+          <select class="filtro-select" id="filtro-status" onchange="filtrarContatos()">
+            <option value="">Todos os status</option>
+            <option value="pendente">Pendentes</option>
+            <option value="enviado">Enviados</option>
+            <option value="respondido">Respondidos</option>
+          </select>
+          <select class="filtro-select" id="filtro-estado-contatos" onchange="filtrarContatos()">
+            <option value="">Todos os estados</option>
+            <option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>PR</option><option>SC</option><option>BA</option><option>DF</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding:0;">
+            <div id="tabela-contatos">
+              <div class="loading"><div class="spinner"></div> Carregando...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GERAR MENSAGEM -->
+      <div class="secao" id="secao-mensagem">
+        <div class="page-header">
+          <h1>‚úçÔ∏è Gerar Mensagem</h1>
+          <p>Selecione um contato e um template para gerar a mensagem personalizada</p>
+        </div>
+        <div class="gen-layout">
+          <div>
+            <div class="gen-card" style="margin-bottom:16px;">
+              <h3>1. Selecione o Contato</h3>
+              <select class="select-contato" id="sel-contato" onchange="atualizarPreview()">
+                <option value="">-- Escolha um prospect --</option>
+              </select>
+              <div id="info-contato-selecionado"></div>
+            </div>
+            <div class="gen-card">
+              <h3>2. Escolha o Template</h3>
+              <div class="template-lista" id="lista-templates-gen"></div>
+            </div>
+          </div>
+          <div>
+            <div class="gen-card">
+              <h3>3. Mensagem Gerada</h3>
+              <div class="preview-mensagem" id="preview-msg">
+                <span class="preview-placeholder">Selecione um contato e um template para visualizar a mensagem aqui.</span>
+              </div>
+              <button class="btn-copiar" id="btn-copiar" onclick="copiarMensagem()">
+                üìã Copiar mensagem
+              </button>
+              <button class="btn-linkedin" id="btn-abrir-linkedin" onclick="abrirLinkedIn()" style="display:none;">
+                üîó Abrir perfil no LinkedIn
+              </button>
+              <div id="acoes-pos-copia" style="display:none; margin-top:12px; padding:12px; background:var(--verde-claro); border-radius:var(--radius); font-size:13px; color:var(--verde);">
+                ‚úÖ Mensagem copiada! Cole no LinkedIn e depois marque como enviado:
+                <button class="btn-acao btn-verde" style="margin-top:8px;width:100%;padding:8px;" onclick="marcarComoEnviado()">‚úì Marcar como Enviado</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEMPLATES -->
+      <div class="secao" id="secao-templates">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <h1>üìã Templates</h1>
+            <p>Crie e gerencie seus templates de mensagem. Use <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{nome}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{cargo}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{empresa}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{cidade}}</code></p>
+          </div>
+          <button class="btn-acao btn-azul" onclick="abrirModalTemplate()" style="padding:10px 16px;font-size:13px;">+ Novo Template</button>
+        </div>
+        <div class="template-grid" id="grade-templates">
+          <div class="loading"><div class="spinner"></div> Carregando...</div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- MODAL TEMPLATE -->
+<div class="modal-overlay" id="modal-template">
+  <div class="modal">
+    <h3 id="modal-template-titulo">Novo Template</h3>
+    <div class="form-group-modal">
+      <label>Nome do template</label>
+      <input class="form-ctrl" id="template-nome" placeholder="ex: Conex√£o direta, Follow-up, Proposta..." />
+    </div>
+    <div class="form-group-modal">
+      <label>Mensagem</label>
+      <textarea class="form-ctrl" id="template-corpo" rows="7" placeholder="Ol√° {{nome}}, vi que voc√™ √© {{cargo}} na {{empresa}}..."></textarea>
+      <div class="vars-hint">Vari√°veis dispon√≠veis: <code>{{nome}}</code> <code>{{cargo}}</code> <code>{{empresa}}</code> <code>{{cidade}}</code> <code>{{estado}}</code> <code>{{funcao}}</code></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="fecharModalTemplate()">Cancelar</button>
+      <button class="btn-salvar" onclick="salvarTemplate()">Salvar Template</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADICIONAR PROSPECT MANUALMENTE -->
+<div class="modal-overlay" id="modal-prospect">
+  <div class="modal">
+    <h3>Adicionar Prospect</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group-modal" style="grid-column:1/-1;">
+        <label>Nome completo *</label>
+        <input class="form-ctrl" id="p-nome" placeholder="Jo√£o Silva" />
+      </div>
+      <div class="form-group-modal">
+        <label>Cargo</label>
+        <input class="form-ctrl" id="p-cargo" placeholder="CEO, Diretor..." />
+      </div>
+      <div class="form-group-modal">
+        <label>Fun√ß√£o / √Årea</label>
+        <input class="form-ctrl" id="p-funcao" placeholder="Marketing, Vendas..." />
+      </div>
+      <div class="form-group-modal">
+        <label>Empresa</label>
+        <input class="form-ctrl" id="p-empresa" placeholder="Nome da empresa" />
+      </div>
+      <div class="form-group-modal">
+        <label>Cidade</label>
+        <input class="form-ctrl" id="p-cidade" placeholder="S√£o Paulo" />
+      </div>
+      <div class="form-group-modal">
+        <label>Estado</label>
+        <input class="form-ctrl" id="p-estado" placeholder="SP" maxlength="2" />
+      </div>
+      <div class="form-group-modal" style="grid-column:1/-1;">
+        <label>URL do perfil LinkedIn</label>
+        <input class="form-ctrl" id="p-linkedin" placeholder="https://linkedin.com/in/joaosilva" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="fecharModalProspect()">Cancelar</button>
+      <button class="btn-salvar" onclick="salvarProspectManual()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTAS -->
+<div class="modal-overlay" id="modal-notas">
+  <div class="modal">
+    <h3>Anota√ß√µes ‚Äî <span id="modal-notas-nome"></span></h3>
+    <div class="form-group-modal">
+      <label>Notas sobre este contato</label>
+      <textarea class="form-ctrl" id="notas-texto" rows="5" placeholder="Interesse, contexto da conversa, follow-up..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="fecharModalNotas()">Cancelar</button>
+      <button class="btn-salvar" onclick="salvarNotas()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- LGPD -->
+<div class="lgpd-banner" id="lgpd-banner" style="display:none;">
+  <span>üç™ Este app usa dados locais para funcionar. Seus dados de prospec√ß√£o s√£o armazenados com seguran√ßa no Supabase, de uso pessoal exclusivo.</span>
+  <div class="lgpd-btns">
+    <button class="btn-lgpd-ok" onclick="aceitarLGPD()">Entendido</button>
+  </div>
+</div>
+
+<!-- ONBOARDING OVERLAY -->
+<div class="onboarding-overlay" id="onb-overlay"></div>
+<div class="onboarding-tooltip" id="onb-tooltip" style="display:none;">
+  <div class="onboarding-passo" id="onb-passo"></div>
+  <div class="onboarding-titulo" id="onb-titulo"></div>
+  <div class="onboarding-desc" id="onb-desc"></div>
+  <div class="onboarding-btns">
+    <span class="btn-onboarding-skip" onclick="pularOnboarding()">Pular tour</span>
+    <button class="btn-onboarding-proximo" id="onb-btn" onclick="proximoPasso()">Pr√≥ximo ‚Üí</button>
+  </div>
+</div>
+
+<script>
+// ‚îÄ‚îÄ CONFIG ‚îÄ‚îÄ
+const SUPABASE_URL = 'https://iiqrzxqbquowelrkikxx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpcXJ6eHFicXVvd2Vscmtpa3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzI5OTQsImV4cCI6MjA4OTQ0ODk5NH0.op1yOpGO-RTe9JQpDHs5SgeJ7lutQdnHw4UzHWtshR8';
+const APOLLO_KEY  = 'UCyzjW9K9KWrIuMkTaKO1w';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Estado global
+let contatos = [];
+let templates = [];
+let templateSelecionado = null;
+let contatoSelecionado = null;
+let prospectEmEdicao = null;
+let notasProspectId = null;
+let modoLogin = 'login'; // 'login' | 'cadastro'
+
+// ‚îÄ‚îÄ AUTH ‚îÄ‚îÄ
+async function verificarSessao() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) entrarNoApp(session.user);
+}
+
+async function fazerLogin() {
+  const email = document.getElementById('email').value.trim();
+  const senha  = document.getElementById('senha').value;
+  const btn    = document.getElementById('btn-login');
+  const erro   = document.getElementById('msg-erro');
+  erro.style.display = 'none';
+  if (!email || !senha) { mostrarErroLogin('Preencha e-mail e senha.'); return; }
+  btn.disabled = true;
+  btn.textContent = modoLogin === 'login' ? 'Entrando...' : 'Criando conta...';
+  try {
+    let result;
+    if (modoLogin === 'login') {
+      result = await sb.auth.signInWithPassword({ email, password: senha });
+    } else {
+      result = await sb.auth.signUp({ email, password: senha });
+    }
+    if (result.error) { mostrarErroLogin(result.error.message); return; }
+    if (modoLogin === 'cadastro' && result.data.user && !result.data.session) {
+      mostrarErroLogin('‚úÖ Conta criada! Verifique seu e-mail para confirmar.');
+      return;
+    }
+    entrarNoApp(result.data.user);
+  } catch(e) { mostrarErroLogin('Erro inesperado. Tente novamente.'); }
+  finally { btn.disabled = false; btn.textContent = modoLogin === 'login' ? 'Entrar' : 'Criar conta'; }
+}
+
+function mostrarErroLogin(msg) {
+  const el = document.getElementById('msg-erro');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function alternarModo() {
+  modoLogin = modoLogin === 'login' ? 'cadastro' : 'login';
+  document.getElementById('login-titulo').textContent = modoLogin === 'login' ? 'Bem-vindo de volta' : 'Criar sua conta';
+  document.getElementById('login-subtitulo').textContent = modoLogin === 'login' ? 'Fa√ßa login para acessar seu painel' : 'Comece a prospectar de forma inteligente';
+  document.getElementById('btn-login').textContent = modoLogin === 'login' ? 'Entrar' : 'Criar conta';
+  document.getElementById('login-toggle-txt').textContent = modoLogin === 'login' ? 'N√£o tem conta?' : 'J√° tem conta?';
+  document.getElementById('login-toggle-acao').textContent = modoLogin === 'login' ? 'Criar conta' : 'Fazer login';
+  document.getElementById('msg-erro').style.display = 'none';
+}
+
+document.getElementById('senha').addEventListener('keydown', e => { if(e.key === 'Enter') fazerLogin(); });
+
+function entrarNoApp(user) {
+  document.getElementById('tela-login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  const inicial = (user.email || '?')[0].toUpperCase();
+  document.getElementById('user-avatar').textContent = inicial;
+  document.getElementById('user-email-display').textContent = user.email;
+  carregarDados();
+  verificarLGPD();
+  verificarOnboarding();
+}
+
+async function sair() {
+  await sb.auth.signOut();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('tela-login').style.display = 'flex';
+}
+
+// ‚îÄ‚îÄ NAVEGA√á√ÉO ‚îÄ‚îÄ
+function navegar(secao) {
+  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('ativo'));
+  document.getElementById('secao-' + secao).classList.add('ativa');
+  document.getElementById('nav-' + secao).classList.add('ativo');
+  if (secao === 'contatos') renderizarContatos();
+  if (secao === 'mensagem') carregarSelectMensagem();
+  if (secao === 'templates') renderizarTemplates();
+}
+
+// ‚îÄ‚îÄ DADOS ‚îÄ‚îÄ
+async function carregarDados() {
+  await Promise.all([carregarContatos(), carregarTemplates()]);
+  atualizarDashboard();
+}
+
+async function carregarContatos() {
+  const { data } = await sb.from('prospects').select('*').order('criado_em', { ascending: false });
+  contatos = data || [];
+}
+
+async function carregarTemplates() {
+  const { data } = await sb.from('templates').select('*').order('favorito', { ascending: false }).order('criado_em', { ascending: false });
+  if (!data || data.length === 0) {
+    await criarTemplatesDefault();
+    const { data: d2 } = await sb.from('templates').select('*').order('criado_em');
+    templates = d2 || [];
+  } else { templates = data; }
+}
+
+async function criarTemplatesDefault() {
+  const { data: { user } } = await sb.auth.getUser();
+  const defaults = [
+    { nome: 'ü§ù Conex√£o Direta', corpo: 'Ol√° {{nome}},\n\nVi seu perfil e fiquei impressionado com sua trajet√≥ria como {{cargo}} na {{empresa}}.\n\nGostaria de me conectar e trocar experi√™ncias sobre o mercado{{cidade ? " em " + cidade : ""}}.\n\nAt√© logo!', favorito: true },
+    { nome: 'üíº Proposta de Parceria', corpo: 'Ol√° {{nome}},\n\nSou da [sua empresa] e acredito que h√° uma sinergia interessante entre o seu trabalho como {{cargo}} na {{empresa}} e o que fazemos.\n\nPodemos conversar 15 minutos esta semana?\n\nAbra√ßo!', favorito: false },
+    { nome: 'üéØ Abordagem Direta', corpo: 'Ol√° {{nome}},\n\nTrabalhando como {{cargo}} na {{empresa}}, voc√™ certamente lida com [problema que voc√™ resolve].\n\nAjudo empresas como a sua a [benef√≠cio principal]. Posso mostrar como em uma conversa r√°pida?\n\nAguardo seu retorno!', favorito: false },
+  ];
+  await sb.from('templates').insert(defaults.map(t => ({ ...t, user_id: user.id })));
+}
+
+// ‚îÄ‚îÄ DASHBOARD ‚îÄ‚îÄ
+function atualizarDashboard() {
+  document.getElementById('stat-total').textContent = contatos.length;
+  document.getElementById('stat-pendentes').textContent = contatos.filter(c => c.status === 'pendente').length;
+  document.getElementById('stat-enviados').textContent = contatos.filter(c => c.status === 'enviado').length;
+  document.getElementById('stat-respondidos').textContent = contatos.filter(c => c.status === 'respondido').length;
+  const recentes = contatos.slice(0, 5);
+  const el = document.getElementById('dashboard-recentes');
+  if (!recentes.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">üîé</div><p>Nenhum prospect ainda.</p><small>V√° em "Buscar Prospects" para come√ßar!</small></div>'; return; }
+  el.innerHTML = `<table>
+    <thead><tr><th>Nome</th><th>Empresa</th><th>Local</th><th>Status</th></tr></thead>
+    <tbody>${recentes.map(c => `<tr>
+      <td><div class="prospect-info">
+        <div class="prospect-foto">${(c.foto_url ? `<img src="${c.foto_url}" onerror="this.style.display='none'">` : '')}${iniciais(c.nome)}</div>
+        <div><div class="prospect-nome">${c.nome}</div><div class="prospect-cargo">${c.cargo || ''}</div></div>
+      </div></td>
+      <td>${c.empresa || '‚Äî'}</td>
+      <td>${[c.cidade, c.estado].filter(Boolean).join(', ') || '‚Äî'}</td>
+      <td><span class="status-badge status-${c.status}">${labelStatus(c.status)}</span></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+// ‚îÄ‚îÄ BUSCAR PROSPECTS (Apollo.io) ‚îÄ‚îÄ
+async function buscarProspects() {
+  const cargo   = document.getElementById('f-cargo').value.trim();
+  const funcao  = document.getElementById('f-funcao').value.trim();
+  const empresa = document.getElementById('f-empresa').value.trim();
+  const cidade  = document.getElementById('f-cidade').value.trim();
+  const estado  = document.getElementById('f-estado').value.trim();
+  const el = document.getElementById('resultados-busca');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div> Buscando prospects no Apollo.io...</div>';
+
+  // Montar filtros Apollo.io
+  const body = { api_key: APOLLO_KEY, per_page: 20, page: 1 };
+  const titles = [cargo, funcao].filter(Boolean);
+  if (titles.length) body.person_titles = titles;
+  if (empresa) body.organization_names = [empresa];
+
+  // Localiza√ß√£o: Apollo usa "city, state, Brazil"
+  const locParts = [cidade, estado, 'Brazil'].filter(Boolean);
+  if (locParts.length > 1) body.person_locations = [locParts.join(', ')];
+
+  try {
+    const res = await fetch('https://api.apollo.io/v1/mixed_people/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) throw new Error(`Apollo.io respondeu com status ${res.status}`);
+    const json = await res.json();
+    const pessoas = json.people || [];
+
+    if (!pessoas.length) {
+      el.innerHTML = `<div class="vazio"><div class="icone-vazio">ü§∑</div><p>Nenhum resultado encontrado.</p><small>Tente filtros diferentes ou menos espec√≠ficos.</small></div>`;
+      return;
+    }
+
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <p style="font-size:13px;color:var(--cinza-400);">${pessoas.length} prospect(s) encontrado(s)</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;">
+        ${pessoas.map((p, i) => {
+          const nome = p.name || 'Sem nome';
+          const cargo_ = p.title || '';
+          const emp = p.organization?.name || '';
+          const cid = p.city || '';
+          const est = p.state || '';
+          const url = p.linkedin_url || '';
+          const foto = p.photo_url || '';
+          const jaAdicionado = contatos.some(c => c.linkedin_url === url && url);
+          return `<div class="busca-resultado">
+            <div class="foto">${foto ? `<img src="${foto}" onerror="this.parentElement.innerHTML='${iniciais(nome)}'" />` : iniciais(nome)}</div>
+            <div class="info">
+              <div class="nome">${nome}</div>
+              ${cargo_ ? `<div class="cargo">${cargo_}</div>` : ''}
+              ${emp ? `<div class="empresa">üè¢ ${emp}</div>` : ''}
+              ${cid || est ? `<div class="local">üìç ${[cid, est].filter(Boolean).join(', ')}</div>` : ''}
+              ${url ? `<a href="${url}" target="_blank" style="font-size:11px;color:var(--azul);display:block;margin-top:2px;">Ver no LinkedIn ‚Üó</a>` : ''}
+              <button id="btn-add-${i}" class="btn-add ${jaAdicionado ? 'adicionado' : ''}" onclick="adicionarProspectDaBusca(${i}, '${nome.replace(/'/g,"\\'")}','${cargo_.replace(/'/g,"\\'")}','','${emp.replace(/'/g,"\\'")}','${cid.replace(/'/g,"\\'")}','${est}','${url}','${foto}')" ${jaAdicionado ? 'disabled' : ''}>
+                ${jaAdicionado ? '‚úì Adicionado' : '+ Adicionar'}
+              </button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  } catch(e) {
+    // Erro CORS ou outro: mostrar mensagem √∫til
+    if (e.message.includes('Failed to fetch') || e.message.includes('CORS') || e.message.includes('NetworkError')) {
+      el.innerHTML = `
+        <div class="card"><div class="card-body">
+          <div style="text-align:center;padding:20px;">
+            <div style="font-size:36px;margin-bottom:12px;">‚ö†Ô∏è</div>
+            <p style="font-weight:700;margin-bottom:8px;">Restri√ß√£o CORS do Apollo.io</p>
+            <p style="font-size:13px;color:var(--cinza-600);max-width:480px;margin:0 auto 16px;">
+              A API do Apollo.io bloqueia chamadas diretas do navegador por seguran√ßa.<br>
+              <strong>Solu√ß√£o:</strong> Adicione prospects manualmente ou importe um CSV do Apollo.io.
+            </p>
+            <button class="btn-acao btn-azul" onclick="abrirModalAdicionarManual()" style="padding:10px 20px;font-size:13px;">+ Adicionar manualmente</button>
+            <p style="font-size:11px;color:var(--cinza-400);margin-top:12px;">
+              Ou exporte contatos em <a href="https://app.apollo.io/#/people" target="_blank" style="color:var(--azul);">app.apollo.io</a> e adicione um por um.
+            </p>
+          </div>
+        </div></div>`;
+    } else {
+      el.innerHTML = `<div class="vazio"><p>Erro: ${e.message}</p></div>`;
+    }
+  }
+}
+
+async function adicionarProspectDaBusca(idx, nome, cargo, funcao, empresa, cidade, estado, linkedin_url, foto_url) {
+  const { data: { user } } = await sb.auth.getUser();
+  const { error } = await sb.from('prospects').insert([{ user_id: user.id, nome, cargo, funcao, empresa, cidade, estado, linkedin_url, foto_url, status: 'pendente' }]);
+  if (error) { mostrarToast('Erro ao adicionar: ' + error.message); return; }
+  const btn = document.getElementById('btn-add-' + idx);
+  if (btn) { btn.textContent = '‚úì Adicionado'; btn.classList.add('adicionado'); btn.disabled = true; }
+  await carregarContatos();
+  atualizarDashboard();
+  mostrarToast('‚úÖ ' + nome + ' adicionado!', 'verde');
+}
+
+// ‚îÄ‚îÄ CONTATOS ‚îÄ‚îÄ
+function renderizarContatos(lista) {
+  const el = document.getElementById('tabela-contatos');
+  const filtrados = lista || contatos;
+  if (!filtrados.length) {
+    el.innerHTML = '<div class="vazio"><div class="icone-vazio">üë•</div><p>Nenhum contato encontrado.</p><small>Busque prospects ou adicione manualmente.</small></div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr><th>Nome</th><th>Cargo</th><th>Empresa</th><th>Local</th><th>Status</th><th>A√ß√µes</th></tr></thead>
+    <tbody>${filtrados.map(c => `<tr>
+      <td><div class="prospect-info">
+        <div class="prospect-foto">${c.foto_url ? `<img src="${c.foto_url}" onerror="this.style.display='none'">` : ''}${iniciais(c.nome)}</div>
+        <div><div class="prospect-nome">${c.nome}</div>${c.funcao ? `<div class="prospect-cargo">${c.funcao}</div>` : ''}</div>
+      </div></td>
+      <td style="font-size:13px;">${c.cargo || '‚Äî'}</td>
+      <td style="font-size:13px;">${c.empresa || '‚Äî'}</td>
+      <td style="font-size:13px;">${[c.cidade, c.estado].filter(Boolean).join(', ') || '‚Äî'}</td>
+      <td>
+        <select class="filtro-select" style="font-size:11px;padding:4px 8px;" onchange="atualizarStatus('${c.id}', this.value)">
+          <option value="pendente" ${c.status === 'pendente' ? 'selected' : ''}>‚è≥ Pendente</option>
+          <option value="enviado" ${c.status === 'enviado' ? 'selected' : ''}>üì§ Enviado</option>
+          <option value="respondido" ${c.status === 'respondido' ? 'selected' : ''}>‚úÖ Respondido</option>
+        </select>
+      </td>
+      <td>
+        <div class="acoes">
+          <button class="btn-acao btn-azul" onclick="irParaMensagem('${c.id}')" title="Gerar mensagem">‚úçÔ∏è</button>
+          ${c.linkedin_url ? `<button class="btn-acao btn-azul" onclick="window.open('${c.linkedin_url}','_blank')" title="Abrir LinkedIn">üîó</button>` : ''}
+          <button class="btn-acao btn-cinza" onclick="abrirModalNotas('${c.id}','${c.nome.replace(/'/g,"\\'")}','${(c.notas||'').replace(/'/g,"\\'").replace(/\n/g,'\\n')}')" title="Notas">üìù</button>
+          <button class="btn-acao btn-vermelho" onclick="removerContato('${c.id}','${c.nome.replace(/'/g,"\\'")}')">üóëÔ∏è</button>
+        </div>
+      </td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+function filtrarContatos() {
+  const busca   = document.getElementById('busca-contatos').value.toLowerCase();
+  const status  = document.getElementById('filtro-status').value;
+  const estado  = document.getElementById('filtro-estado-contatos').value;
+  const filtrados = contatos.filter(c => {
+    const matchBusca  = !busca  || c.nome.toLowerCase().includes(busca) || (c.empresa||'').toLowerCase().includes(busca);
+    const matchStatus = !status || c.status === status;
+    const matchEstado = !estado || c.estado === estado;
+    return matchBusca && matchStatus && matchEstado;
+  });
+  renderizarContatos(filtrados);
+}
+
+async function atualizarStatus(id, status) {
+  const campo = status === 'enviado' ? { status, enviado_em: new Date().toISOString() }
+              : status === 'respondido' ? { status, respondido_em: new Date().toISOString() }
+              : { status };
+  await sb.from('prospects').update(campo).eq('id', id);
+  const c = contatos.find(x => x.id === id);
+  if (c) Object.assign(c, campo);
+  atualizarDashboard();
+  mostrarToast('Status atualizado!', 'verde');
+}
+
+async function removerContato(id, nome) {
+  if (!confirm(`Remover "${nome}"? Esta a√ß√£o n√£o pode ser desfeita.`)) return;
+  await sb.from('prospects').delete().eq('id', id);
+  contatos = contatos.filter(c => c.id !== id);
+  renderizarContatos();
+  atualizarDashboard();
+  mostrarToast('Contato removido.');
+}
+
+// ‚îÄ‚îÄ ADICIONAR MANUALMENTE ‚îÄ‚îÄ
+function abrirModalAdicionarManual() {
+  ['p-nome','p-cargo','p-funcao','p-empresa','p-cidade','p-estado','p-linkedin'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('modal-prospect').classList.add('aberto');
+}
+function fecharModalProspect() { document.getElementById('modal-prospect').classList.remove('aberto'); }
+
+async function salvarProspectManual() {
+  const nome = document.getElementById('p-nome').value.trim();
+  if (!nome) { mostrarToast('O nome √© obrigat√≥rio.'); return; }
+  const { data: { user } } = await sb.auth.getUser();
+  const novo = {
+    user_id: user.id,
+    nome,
+    cargo: document.getElementById('p-cargo').value.trim() || null,
+    funcao: document.getElementById('p-funcao').value.trim() || null,
+    empresa: document.getElementById('p-empresa').value.trim() || null,
+    cidade: document.getElementById('p-cidade').value.trim() || null,
+    estado: document.getElementById('p-estado').value.trim().toUpperCase() || null,
+    linkedin_url: document.getElementById('p-linkedin').value.trim() || null,
+    status: 'pendente'
+  };
+  const { error } = await sb.from('prospects').insert([novo]);
+  if (error) { mostrarToast('Erro: ' + error.message); return; }
+  await carregarContatos();
+  renderizarContatos();
+  atualizarDashboard();
+  fecharModalProspect();
+  mostrarToast('‚úÖ Prospect adicionado!', 'verde');
+}
+
+// ‚îÄ‚îÄ NOTAS ‚îÄ‚îÄ
+function abrirModalNotas(id, nome, notas) {
+  notasProspectId = id;
+  document.getElementById('modal-notas-nome').textContent = nome;
+  document.getElementById('notas-texto').value = notas.replace(/\\n/g,'\n');
+  document.getElementById('modal-notas').classList.add('aberto');
+}
+function fecharModalNotas() { document.getElementById('modal-notas').classList.remove('aberto'); notasProspectId = null; }
+async function salvarNotas() {
+  const notas = document.getElementById('notas-texto').value;
+  await sb.from('prospects').update({ notas }).eq('id', notasProspectId);
+  const c = contatos.find(x => x.id === notasProspectId);
+  if (c) c.notas = notas;
+  fecharModalNotas();
+  mostrarToast('Notas salvas!', 'verde');
+}
+
+// ‚îÄ‚îÄ GERAR MENSAGEM ‚îÄ‚îÄ
+function carregarSelectMensagem() {
+  const sel = document.getElementById('sel-contato');
+  const pendentes = contatos.filter(c => c.status === 'pendente');
+  sel.innerHTML = '<option value="">-- Escolha um prospect --</option>' +
+    pendentes.map(c => `<option value="${c.id}">${c.nome}${c.empresa ? ' ‚Äî ' + c.empresa : ''}</option>`).join('');
+  renderizarTemplatesGen();
+}
+
+function atualizarPreview() {
+  const id = document.getElementById('sel-contato').value;
+  contatoSelecionado = contatos.find(c => c.id === id) || null;
+  const infoEl = document.getElementById('info-contato-selecionado');
+  if (contatoSelecionado) {
+    infoEl.innerHTML = `<div class="info-prospect">
+      <div class="nome-dest">${contatoSelecionado.nome}</div>
+      <div class="detalhe">${[contatoSelecionado.cargo, contatoSelecionado.empresa, [contatoSelecionado.cidade, contatoSelecionado.estado].filter(Boolean).join('/')].filter(Boolean).join(' ¬∑ ')}</div>
+    </div>`;
+    document.getElementById('btn-abrir-linkedin').style.display = contatoSelecionado.linkedin_url ? 'block' : 'none';
+  } else { infoEl.innerHTML = ''; document.getElementById('btn-abrir-linkedin').style.display = 'none'; }
+  gerarPreview();
+}
+
+function renderizarTemplatesGen() {
+  const el = document.getElementById('lista-templates-gen');
+  if (!templates.length) { el.innerHTML = '<p style="color:var(--cinza-400);font-size:13px;">Nenhum template. Crie um em "Templates".</p>'; return; }
+  el.innerHTML = templates.map(t => `
+    <div class="template-opcao ${templateSelecionado?.id === t.id ? 'selecionado' : ''}" onclick="selecionarTemplate('${t.id}')">
+      <div class="t-nome">${t.favorito ? '‚≠ê ' : ''}${t.nome}</div>
+      <div class="t-preview">${t.corpo.substring(0, 80)}...</div>
+    </div>`).join('');
+}
+
+function selecionarTemplate(id) {
+  templateSelecionado = templates.find(t => t.id === id) || null;
+  renderizarTemplatesGen();
+  gerarPreview();
+}
+
+function gerarPreview() {
+  const el = document.getElementById('preview-msg');
+  document.getElementById('acoes-pos-copia').style.display = 'none';
+  if (!contatoSelecionado || !templateSelecionado) {
+    el.innerHTML = '<span class="preview-placeholder">Selecione um contato e um template para visualizar a mensagem aqui.</span>';
+    return;
+  }
+  const c = contatoSelecionado;
+  let msg = templateSelecionado.corpo
+    .replace(/\{\{nome\}\}/gi, c.nome.split(' ')[0])
+    .replace(/\{\{nome_completo\}\}/gi, c.nome)
+    .replace(/\{\{cargo\}\}/gi, c.cargo || 'profissional')
+    .replace(/\{\{funcao\}\}/gi, c.funcao || c.cargo || '√°rea')
+    .replace(/\{\{empresa\}\}/gi, c.empresa || 'sua empresa')
+    .replace(/\{\{cidade\}\}/gi, c.cidade || '')
+    .replace(/\{\{estado\}\}/gi, c.estado || '');
+  el.textContent = msg;
+}
+
+async function copiarMensagem() {
+  const msg = document.getElementById('preview-msg').textContent;
+  if (!msg || msg.includes('Selecione um contato')) { mostrarToast('Gere uma mensagem primeiro!'); return; }
+  try {
+    await navigator.clipboard.writeText(msg);
+    const btn = document.getElementById('btn-copiar');
+    btn.textContent = '‚úÖ Copiado!'; btn.classList.add('copiado');
+    setTimeout(() => { btn.innerHTML = 'üìã Copiar mensagem'; btn.classList.remove('copiado'); }, 2500);
+    // Registrar c√≥pia
+    if (contatoSelecionado) {
+      await sb.from('prospects').update({ copiado_em: new Date().toISOString(), mensagem_enviada: msg }).eq('id', contatoSelecionado.id);
+    }
+    // Incrementar uso do template
+    if (templateSelecionado) {
+      await sb.from('templates').update({ usos: (templateSelecionado.usos || 0) + 1 }).eq('id', templateSelecionado.id);
+    }
+    document.getElementById('acoes-pos-copia').style.display = 'block';
+    mostrarToast('Mensagem copiada! Cole no LinkedIn.', 'verde');
+  } catch(e) {
+    // Fallback para browsers sem clipboard API
+    const ta = document.createElement('textarea');
+    ta.value = msg; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    mostrarToast('Mensagem copiada!', 'verde');
+    document.getElementById('acoes-pos-copia').style.display = 'block';
+  }
+}
+
+function abrirLinkedIn() {
+  if (contatoSelecionado?.linkedin_url) window.open(contatoSelecionado.linkedin_url, '_blank');
+}
+
+async function marcarComoEnviado() {
+  if (!contatoSelecionado) return;
+  await atualizarStatus(contatoSelecionado.id, 'enviado');
+  document.getElementById('acoes-pos-copia').style.display = 'none';
+  mostrarToast('‚úÖ Marcado como enviado!', 'verde');
+}
+
+function irParaMensagem(id) {
+  navegar('mensagem');
+  setTimeout(() => {
+    document.getElementById('sel-contato').value = id;
+    atualizarPreview();
+  }, 100);
+}
+
+// ‚îÄ‚îÄ TEMPLATES ‚îÄ‚îÄ
+function renderizarTemplates() {
+  const el = document.getElementById('grade-templates');
+  if (!templates.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">üìã</div><p>Nenhum template criado.</p></div>'; return; }
+  el.innerHTML = templates.map(t => `
+    <div class="template-card ${t.favorito ? 'favorito' : ''}">
+      <div class="t-nome">
+        ${t.nome}
+        <span class="${t.favorito ? 'estrela' : 'estrela-vazia'}" onclick="toggleFavorito('${t.id}',${t.favorito})" style="cursor:pointer;font-size:16px;">‚òÖ</span>
+      </div>
+      <div class="t-corpo">${t.corpo}</div>
+      <div style="font-size:11px;color:var(--cinza-400);margin-bottom:4px;">Usado ${t.usos || 0} vez(es)</div>
+      <div class="t-acoes">
+        <button class="btn-acao btn-azul" onclick="editarTemplate('${t.id}')">‚úèÔ∏è Editar</button>
+        <button class="btn-acao btn-vermelho" onclick="deletarTemplate('${t.id}','${t.nome.replace(/'/g,"\\'")}')">üóëÔ∏è Apagar</button>
+      </div>
+    </div>`).join('');
+}
+
+function abrirModalTemplate(id) {
+  prospectEmEdicao = id || null;
+  const t = id ? templates.find(x => x.id === id) : null;
+  document.getElementById('modal-template-titulo').textContent = t ? 'Editar Template' : 'Novo Template';
+  document.getElementById('template-nome').value = t?.nome || '';
+  document.getElementById('template-corpo').value = t?.corpo || '';
+  document.getElementById('modal-template').classList.add('aberto');
+}
+function editarTemplate(id) { abrirModalTemplate(id); }
+function fecharModalTemplate() { document.getElementById('modal-template').classList.remove('aberto'); prospectEmEdicao = null; }
+
+async function salvarTemplate() {
+  const nome = document.getElementById('template-nome').value.trim();
+  const corpo = document.getElementById('template-corpo').value.trim();
+  if (!nome || !corpo) { mostrarToast('Preencha nome e mensagem.'); return; }
+  const { data: { user } } = await sb.auth.getUser();
+  if (prospectEmEdicao) {
+    await sb.from('templates').update({ nome, corpo }).eq('id', prospectEmEdicao);
+    const t = templates.find(x => x.id === prospectEmEdicao);
+    if (t) { t.nome = nome; t.corpo = corpo; }
+  } else {
+    const { data } = await sb.from('templates').insert([{ user_id: user.id, nome, corpo }]).select();
+    if (data) templates.push(data[0]);
+  }
+  fecharModalTemplate();
+  renderizarTemplates();
+  mostrarToast('‚úÖ Template salvo!', 'verde');
+}
+
+async function toggleFavorito(id, atual) {
+  await sb.from('templates').update({ favorito: !atual }).eq('id', id);
+  const t = templates.find(x => x.id === id);
+  if (t) t.favorito = !atual;
+  renderizarTemplates();
+}
+
+async function deletarTemplate(id, nome) {
+  if (!confirm(`Apagar template "${nome}"?`)) return;
+  await sb.from('templates').delete().eq('id', id);
+  templates = templates.filter(t => t.id !== id);
+  renderizarTemplates();
+  mostrarToast('Template removido.');
+}
+
+// ‚îÄ‚îÄ UTILS ‚îÄ‚îÄ
+function iniciais(nome) {
+  return (nome || '?').split(' ').slice(0,2).map(p => p[0]).join('').toUpperCase();
+}
+function labelStatus(s) {
+  return { pendente: '‚è≥ Pendente', enviado: 'üì§ Enviado', respondido: '‚úÖ Respondido' }[s] || s;
+}
+function mostrarToast(msg, tipo) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (tipo === 'verde' ? ' verde' : '');
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+// ‚îÄ‚îÄ LGPD ‚îÄ‚îÄ
+function verificarLGPD() {
+  if (!localStorage.getItem('lgpd_ok')) document.getElementById('lgpd-banner').style.display = 'flex';
+}
+function aceitarLGPD() {
+  localStorage.setItem('lgpd_ok', '1');
+  document.getElementById('lgpd-banner').style.display = 'none';
+}
+
+// ‚îÄ‚îÄ ONBOARDING ‚îÄ‚îÄ
+const passosOnb = [
+  { target: '#nav-buscar', titulo: 'üîé Buscar Prospects', desc: 'Aqui voc√™ encontra profissionais no Apollo.io com filtros de cargo, empresa, cidade e estado.' },
+  { target: '#nav-contatos', titulo: 'üë• Meus Contatos', desc: 'Todos os prospects que voc√™ adicionou ficam aqui. Voc√™ pode filtrar, atualizar o status e adicionar notas.' },
+  { target: '#nav-mensagem', titulo: '‚úçÔ∏è Gerar Mensagem', desc: 'Selecione um prospect e um template ‚Äî o app monta a mensagem personalizada para voc√™ copiar com 1 clique.' },
+  { target: '#nav-templates', titulo: 'üìã Templates', desc: 'Crie seus modelos de mensagem com vari√°veis como {{nome}}, {{cargo}} e {{empresa}}. J√° criamos 3 para voc√™ come√ßar!' },
+];
+let passoAtual = 0;
+
+function verificarOnboarding() {
+  if (!localStorage.getItem('onb_done')) setTimeout(iniciarOnboarding, 800);
+}
+
+function iniciarOnboarding() {
+  document.getElementById('onb-overlay').style.display = 'block';
+  document.getElementById('onb-tooltip').style.display = 'block';
+  mostrarPassoOnb(0);
+}
+
+function mostrarPassoOnb(i) {
+  passoAtual = i;
+  const p = passosOnb[i];
+  const el = document.querySelector(p.target);
+  document.getElementById('onb-passo').textContent = `Passo ${i+1} de ${passosOnb.length}`;
+  document.getElementById('onb-titulo').textContent = p.titulo;
+  document.getElementById('onb-desc').textContent = p.desc;
+  document.getElementById('onb-btn').textContent = i < passosOnb.length - 1 ? 'Pr√≥ximo ‚Üí' : '‚úì Entendi!';
+  if (el) {
+    const r = el.getBoundingClientRect();
+    const tt = document.getElementById('onb-tooltip');
+    tt.style.top = (r.bottom + 12) + 'px';
+    tt.style.left = Math.min(r.left, window.innerWidth - 320) + 'px';
+  }
+}
+
+function proximoPasso() {
+  if (passoAtual < passosOnb.length - 1) mostrarPassoOnb(passoAtual + 1);
+  else pularOnboarding();
+}
+
+function pularOnboarding() {
+  localStorage.setItem('onb_done', '1');
+  document.getElementById('onb-overlay').style.display = 'none';
+  document.getElementById('onb-tooltip').style.display = 'none';
+  mostrarToast('üéâ Bem-vindo ao LinkedReach!', 'verde');
+}
+
+// ‚îÄ‚îÄ INIT ‚îÄ‚îÄ
+verificarSessao();
+</script>
+</body>
+</html>
