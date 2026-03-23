@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkedReach ‚Äî Prospec√ß√£o LinkedIn</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -885,7 +886,7 @@ async function buscarProspects() {
   if (locParts.length > 1) body.person_locations = [locParts.join(', ')];
 
   try {
-    const res = await fetch('https://api.apollo.io/v1/mixed_people/search', {
+    const res = await fetch('/api/apollo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(body)
