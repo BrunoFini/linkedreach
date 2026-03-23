@@ -1,5 +1,13 @@
 {
   "routes": [
     { "src": "/", "dest": "/linkedreach.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\.html)",
+      "headers": [
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
+      ]
+    }
   ]
 }
