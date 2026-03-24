@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LinkedReach ‚Äî Prospec√ß√£o LinkedIn</title>
+<title>LinkedReach &#8212; Prospec&#231;&#227;o LinkedIn</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
@@ -31,7 +31,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; }
 input, textarea, select { font: inherit; }
 a { color: inherit; text-decoration: none; }
 
-/* ‚îÄ‚îÄ LOGIN ‚îÄ‚îÄ */
+/* \002500 \002500  LOGIN \002500 \002500  */
 #tela-login {
   min-height: 100vh;
   display: flex;
@@ -89,7 +89,7 @@ a { color: inherit; text-decoration: none; }
 .login-toggle a { color: var(--azul); font-weight: 600; cursor: pointer; }
 .msg-erro { background: #FEE2E2; color: #DC2626; padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 12px; display: none; }
 
-/* ‚îÄ‚îÄ APP LAYOUT ‚îÄ‚îÄ */
+/* \002500 \002500  APP LAYOUT \002500 \002500  */
 #app { display: none; min-height: 100vh; }
 .layout { display: flex; height: 100vh; overflow: hidden; }
 
@@ -179,7 +179,7 @@ tr:hover td { background: var(--cinza-100); }
 .status-enviado { background: var(--azul-claro); color: var(--azul); }
 .status-respondido { background: var(--verde-claro); color: var(--verde); }
 
-/* A√ß√µes */
+/* A\0000e7 \0000f5 es */
 .acoes { display: flex; gap: 6px; }
 .btn-acao {
   padding: 5px 10px; border-radius: 6px;
@@ -376,7 +376,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
 </head>
 <body>
 
-<!-- ‚îÄ‚îÄ TELA DE LOGIN ‚îÄ‚îÄ -->
+<!-- &#9472;&#9472; TELA DE LOGIN &#9472;&#9472; -->
 <div id="tela-login">
   <div class="login-card">
     <div class="login-logo">
@@ -384,7 +384,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <span>LinkedReach</span>
     </div>
     <h2 id="login-titulo">Bem-vindo de volta</h2>
-    <p id="login-subtitulo">Fa√ßa login para acessar seu painel</p>
+    <p id="login-subtitulo">Fa&#231;a login para acessar seu painel</p>
     <div class="msg-erro" id="msg-erro"></div>
     <div class="form-group">
       <label>E-mail</label>
@@ -392,17 +392,17 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
     </div>
     <div class="form-group">
       <label>Senha</label>
-      <input type="password" id="senha" placeholder="‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢" />
+      <input type="password" id="senha" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" />
     </div>
     <button class="btn-primario" id="btn-login" onclick="fazerLogin()">Entrar</button>
     <div class="login-toggle">
-      <span id="login-toggle-txt">N√£o tem conta?</span>
+      <span id="login-toggle-txt">N&#227;o tem conta?</span>
       <a onclick="alternarModo()"> <span id="login-toggle-acao">Criar conta</span></a>
     </div>
   </div>
 </div>
 
-<!-- ‚îÄ‚îÄ APP ‚îÄ‚îÄ -->
+<!-- &#9472;&#9472; APP &#9472;&#9472; -->
 <div id="app">
   <div class="layout">
 
@@ -414,26 +414,26 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       </div>
       <nav>
         <div class="nav-item ativo" onclick="navegar('dashboard')" id="nav-dashboard">
-          <span class="icone">üè†</span><span>Dashboard</span>
+          <span class="icone">&#127968;</span><span>Dashboard</span>
         </div>
         <div class="nav-item" onclick="navegar('buscar')" id="nav-buscar">
-          <span class="icone">üîé</span><span>Buscar Prospects</span>
+          <span class="icone">&#128270;</span><span>Buscar Prospects</span>
         </div>
         <div class="nav-item" onclick="navegar('contatos')" id="nav-contatos">
-          <span class="icone">üë•</span><span>Meus Contatos</span>
+          <span class="icone">&#128101;</span><span>Meus Contatos</span>
         </div>
         <div class="nav-item" onclick="navegar('mensagem')" id="nav-mensagem">
-          <span class="icone">‚úçÔ∏è</span><span>Gerar Mensagem</span>
+          <span class="icone">&#9997;&#65039;</span><span>Gerar Mensagem</span>
         </div>
         <div class="nav-item" onclick="navegar('templates')" id="nav-templates">
-          <span class="icone">üìã</span><span>Templates</span>
+          <span class="icone">&#128203;</span><span>Templates</span>
         </div>
       </nav>
       <div class="sidebar-bottom">
         <div class="user-info">
           <div class="user-avatar" id="user-avatar">?</div>
           <div>
-            <div class="user-email" id="user-email-display">‚Äî</div>
+            <div class="user-email" id="user-email-display">&#8212;</div>
           </div>
         </div>
         <div class="btn-sair" onclick="sair()">Sair</div>
@@ -447,7 +447,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <div class="secao ativa" id="secao-dashboard">
         <div class="page-header">
           <h1>Dashboard</h1>
-          <p>Vis√£o geral da sua prospec√ß√£o</p>
+          <p>Vis&#227;o geral da sua prospec&#231;&#227;o</p>
         </div>
         <div class="stats-grid">
           <div class="stat-card">
@@ -485,18 +485,18 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <!-- BUSCAR PROSPECTS -->
       <div class="secao" id="secao-buscar">
         <div class="page-header">
-          <h1>üîé Buscar Prospects</h1>
-          <p>Use os filtros abaixo para encontrar perfis no Apollo.io. Todos os campos s√£o opcionais.</p>
+          <h1>&#128270; Buscar Prospects</h1>
+          <p>Use os filtros abaixo para encontrar perfis no Apollo.io. Todos os campos s&#227;o opcionais.</p>
         </div>
         <div class="card" style="margin-bottom:20px;">
           <div class="card-body">
             <div class="busca-grid">
               <div>
-                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Cargo / T√≠tulo</label>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Cargo / T&#237;tulo</label>
                 <input class="filtro-input" style="width:100%" id="f-cargo" placeholder="ex: CEO, Gerente, Diretor" />
               </div>
               <div>
-                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Fun√ß√£o / √Årea</label>
+                <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Fun&#231;&#227;o / &#193;rea</label>
                 <input class="filtro-input" style="width:100%" id="f-funcao" placeholder="ex: Marketing, Vendas, TI" />
               </div>
               <div>
@@ -505,7 +505,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
               </div>
               <div>
                 <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Cidade</label>
-                <input class="filtro-input" style="width:100%" id="f-cidade" placeholder="ex: S√£o Paulo, Curitiba" />
+                <input class="filtro-input" style="width:100%" id="f-cidade" placeholder="ex: S&#227;o Paulo, Curitiba" />
               </div>
               <div>
                 <label style="font-size:12px;font-weight:600;color:var(--cinza-600);display:block;margin-bottom:6px;">Estado</label>
@@ -521,7 +521,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
                 </select>
               </div>
               <div style="display:flex;align-items:flex-end;">
-                <button class="btn-primario" style="width:100%;margin-top:0;" onclick="buscarProspects()">üîé Buscar</button>
+                <button class="btn-primario" style="width:100%;margin-top:0;" onclick="buscarProspects()">&#128270; Buscar</button>
               </div>
             </div>
           </div>
@@ -534,13 +534,13 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <div class="secao" id="secao-contatos">
         <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
           <div>
-            <h1>üë• Meus Contatos</h1>
+            <h1>&#128101; Meus Contatos</h1>
             <p>Gerencie seus prospects e acompanhe o status</p>
           </div>
           <button class="btn-acao btn-azul" onclick="abrirModalAdicionarManual()" style="padding:10px 16px;font-size:13px;">+ Adicionar manualmente</button>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-          <input class="filtro-input" id="busca-contatos" placeholder="üîç Buscar por nome ou empresa..." oninput="filtrarContatos()" style="flex:1;min-width:200px;" />
+          <input class="filtro-input" id="busca-contatos" placeholder="&#128269; Buscar por nome ou empresa..." oninput="filtrarContatos()" style="flex:1;min-width:200px;" />
           <select class="filtro-select" id="filtro-status" onchange="filtrarContatos()">
             <option value="">Todos os status</option>
             <option value="pendente">Pendentes</option>
@@ -564,7 +564,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <!-- GERAR MENSAGEM -->
       <div class="secao" id="secao-mensagem">
         <div class="page-header">
-          <h1>‚úçÔ∏è Gerar Mensagem</h1>
+          <h1>&#9997;&#65039; Gerar Mensagem</h1>
           <p>Selecione um contato e um template para gerar a mensagem personalizada</p>
         </div>
         <div class="gen-layout">
@@ -588,14 +588,14 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
                 <span class="preview-placeholder">Selecione um contato e um template para visualizar a mensagem aqui.</span>
               </div>
               <button class="btn-copiar" id="btn-copiar" onclick="copiarMensagem()">
-                üìã Copiar mensagem
+                &#128203; Copiar mensagem
               </button>
               <button class="btn-linkedin" id="btn-abrir-linkedin" onclick="abrirLinkedIn()" style="display:none;">
-                üîó Abrir perfil no LinkedIn
+                &#128279; Abrir perfil no LinkedIn
               </button>
               <div id="acoes-pos-copia" style="display:none; margin-top:12px; padding:12px; background:var(--verde-claro); border-radius:var(--radius); font-size:13px; color:var(--verde);">
-                ‚úÖ Mensagem copiada! Cole no LinkedIn e depois marque como enviado:
-                <button class="btn-acao btn-verde" style="margin-top:8px;width:100%;padding:8px;" onclick="marcarComoEnviado()">‚úì Marcar como Enviado</button>
+                &#9989; Mensagem copiada! Cole no LinkedIn e depois marque como enviado:
+                <button class="btn-acao btn-verde" style="margin-top:8px;width:100%;padding:8px;" onclick="marcarComoEnviado()">&#10003; Marcar como Enviado</button>
               </div>
             </div>
           </div>
@@ -606,7 +606,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       <div class="secao" id="secao-templates">
         <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
           <div>
-            <h1>üìã Templates</h1>
+            <h1>&#128203; Templates</h1>
             <p>Crie e gerencie seus templates de mensagem. Use <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{nome}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{cargo}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{empresa}}</code>, <code style="background:var(--cinza-100);padding:1px 6px;border-radius:4px;font-family:monospace;">{{cidade}}</code></p>
           </div>
           <button class="btn-acao btn-azul" onclick="abrirModalTemplate()" style="padding:10px 16px;font-size:13px;">+ Novo Template</button>
@@ -626,12 +626,12 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
     <h3 id="modal-template-titulo">Novo Template</h3>
     <div class="form-group-modal">
       <label>Nome do template</label>
-      <input class="form-ctrl" id="template-nome" placeholder="ex: Conex√£o direta, Follow-up, Proposta..." />
+      <input class="form-ctrl" id="template-nome" placeholder="ex: Conex&#227;o direta, Follow-up, Proposta..." />
     </div>
     <div class="form-group-modal">
       <label>Mensagem</label>
-      <textarea class="form-ctrl" id="template-corpo" rows="7" placeholder="Ol√° {{nome}}, vi que voc√™ √© {{cargo}} na {{empresa}}..."></textarea>
-      <div class="vars-hint">Vari√°veis dispon√≠veis: <code>{{nome}}</code> <code>{{cargo}}</code> <code>{{empresa}}</code> <code>{{cidade}}</code> <code>{{estado}}</code> <code>{{funcao}}</code></div>
+      <textarea class="form-ctrl" id="template-corpo" rows="7" placeholder="Ol&#225; {{nome}}, vi que voc&#234; &#233; {{cargo}} na {{empresa}}..."></textarea>
+      <div class="vars-hint">Vari&#225;veis dispon&#237;veis: <code>{{nome}}</code> <code>{{cargo}}</code> <code>{{empresa}}</code> <code>{{cidade}}</code> <code>{{estado}}</code> <code>{{funcao}}</code></div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancelar" onclick="fecharModalTemplate()">Cancelar</button>
@@ -647,14 +647,14 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group-modal" style="grid-column:1/-1;">
         <label>Nome completo *</label>
-        <input class="form-ctrl" id="p-nome" placeholder="Jo√£o Silva" />
+        <input class="form-ctrl" id="p-nome" placeholder="Jo&#227;o Silva" />
       </div>
       <div class="form-group-modal">
         <label>Cargo</label>
         <input class="form-ctrl" id="p-cargo" placeholder="CEO, Diretor..." />
       </div>
       <div class="form-group-modal">
-        <label>Fun√ß√£o / √Årea</label>
+        <label>Fun&#231;&#227;o / &#193;rea</label>
         <input class="form-ctrl" id="p-funcao" placeholder="Marketing, Vendas..." />
       </div>
       <div class="form-group-modal">
@@ -663,7 +663,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
       </div>
       <div class="form-group-modal">
         <label>Cidade</label>
-        <input class="form-ctrl" id="p-cidade" placeholder="S√£o Paulo" />
+        <input class="form-ctrl" id="p-cidade" placeholder="S&#227;o Paulo" />
       </div>
       <div class="form-group-modal">
         <label>Estado</label>
@@ -684,7 +684,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
 <!-- MODAL NOTAS -->
 <div class="modal-overlay" id="modal-notas">
   <div class="modal">
-    <h3>Anota√ß√µes ‚Äî <span id="modal-notas-nome"></span></h3>
+    <h3>Anota&#231;&#245;es &#8212; <span id="modal-notas-nome"></span></h3>
     <div class="form-group-modal">
       <label>Notas sobre este contato</label>
       <textarea class="form-ctrl" id="notas-texto" rows="5" placeholder="Interesse, contexto da conversa, follow-up..."></textarea>
@@ -701,7 +701,7 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
 
 <!-- LGPD -->
 <div class="lgpd-banner" id="lgpd-banner" style="display:none;">
-  <span>üç™ Este app usa dados locais para funcionar. Seus dados de prospec√ß√£o s√£o armazenados com seguran√ßa no Supabase, de uso pessoal exclusivo.</span>
+  <span>&#127850; Este app usa dados locais para funcionar. Seus dados de prospec&#231;&#227;o s&#227;o armazenados com seguran&#231;a no Supabase, de uso pessoal exclusivo.</span>
   <div class="lgpd-btns">
     <button class="btn-lgpd-ok" onclick="aceitarLGPD()">Entendido</button>
   </div>
@@ -715,12 +715,12 @@ input.form-ctrl { width: 100%; padding: 10px 12px; border: 1.5px solid var(--cin
   <div class="onboarding-desc" id="onb-desc"></div>
   <div class="onboarding-btns">
     <span class="btn-onboarding-skip" onclick="pularOnboarding()">Pular tour</span>
-    <button class="btn-onboarding-proximo" id="onb-btn" onclick="proximoPasso()">Pr√≥ximo ‚Üí</button>
+    <button class="btn-onboarding-proximo" id="onb-btn" onclick="proximoPasso()">Pr&#243;ximo &#8594;</button>
   </div>
 </div>
 
 <script>
-// ‚îÄ‚îÄ CONFIG ‚îÄ‚îÄ
+// \u2500\u2500 CONFIG \u2500\u2500
 const SUPABASE_URL = 'https://iiqrzxqbquowelrkikxx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpcXJ6eHFicXVvd2Vscmtpa3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzI5OTQsImV4cCI6MjA4OTQ0ODk5NH0.op1yOpGO-RTe9JQpDHs5SgeJ7lutQdnHw4UzHWtshR8';
 const APOLLO_KEY  = 'UCyzjW9K9KWrIuMkTaKO1w';
@@ -736,7 +736,7 @@ let prospectEmEdicao = null;
 let notasProspectId = null;
 let modoLogin = 'login'; // 'login' | 'cadastro'
 
-// ‚îÄ‚îÄ AUTH ‚îÄ‚îÄ
+// \u2500\u2500 AUTH \u2500\u2500
 async function verificarSessao() {
   const { data: { session } } = await sb.auth.getSession();
   if (session) entrarNoApp(session.user);
@@ -760,7 +760,7 @@ async function fazerLogin() {
     }
     if (result.error) { mostrarErroLogin(result.error.message); return; }
     if (modoLogin === 'cadastro' && result.data.user && !result.data.session) {
-      mostrarErroLogin('‚úÖ Conta criada! Verifique seu e-mail para confirmar.');
+      mostrarErroLogin('\u2705 Conta criada! Verifique seu e-mail para confirmar.');
       return;
     }
     entrarNoApp(result.data.user);
@@ -776,9 +776,9 @@ function mostrarErroLogin(msg) {
 function alternarModo() {
   modoLogin = modoLogin === 'login' ? 'cadastro' : 'login';
   document.getElementById('login-titulo').textContent = modoLogin === 'login' ? 'Bem-vindo de volta' : 'Criar sua conta';
-  document.getElementById('login-subtitulo').textContent = modoLogin === 'login' ? 'Fa√ßa login para acessar seu painel' : 'Comece a prospectar de forma inteligente';
+  document.getElementById('login-subtitulo').textContent = modoLogin === 'login' ? 'Fa\u00e7a login para acessar seu painel' : 'Comece a prospectar de forma inteligente';
   document.getElementById('btn-login').textContent = modoLogin === 'login' ? 'Entrar' : 'Criar conta';
-  document.getElementById('login-toggle-txt').textContent = modoLogin === 'login' ? 'N√£o tem conta?' : 'J√° tem conta?';
+  document.getElementById('login-toggle-txt').textContent = modoLogin === 'login' ? 'N\u00e3o tem conta?' : 'J\u00e1 tem conta?';
   document.getElementById('login-toggle-acao').textContent = modoLogin === 'login' ? 'Criar conta' : 'Fazer login';
   document.getElementById('msg-erro').style.display = 'none';
 }
@@ -802,7 +802,7 @@ async function sair() {
   document.getElementById('tela-login').style.display = 'flex';
 }
 
-// ‚îÄ‚îÄ NAVEGA√á√ÉO ‚îÄ‚îÄ
+// \u2500\u2500 NAVEGA\u00c7\u00c3O \u2500\u2500
 function navegar(secao) {
   document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('ativo'));
@@ -813,7 +813,7 @@ function navegar(secao) {
   if (secao === 'templates') renderizarTemplates();
 }
 
-// ‚îÄ‚îÄ DADOS ‚îÄ‚îÄ
+// \u2500\u2500 DADOS \u2500\u2500
 async function carregarDados() {
   await Promise.all([carregarContatos(), carregarTemplates()]);
   atualizarDashboard();
@@ -836,14 +836,14 @@ async function carregarTemplates() {
 async function criarTemplatesDefault() {
   const { data: { user } } = await sb.auth.getUser();
   const defaults = [
-    { nome: 'ü§ù Conex√£o Direta', corpo: 'Ol√° {{nome}},\n\nVi seu perfil e fiquei impressionado com sua trajet√≥ria como {{cargo}} na {{empresa}}.\n\nGostaria de me conectar e trocar experi√™ncias sobre o mercado{{cidade ? " em " + cidade : ""}}.\n\nAt√© logo!', favorito: true },
-    { nome: 'üíº Proposta de Parceria', corpo: 'Ol√° {{nome}},\n\nSou da [sua empresa] e acredito que h√° uma sinergia interessante entre o seu trabalho como {{cargo}} na {{empresa}} e o que fazemos.\n\nPodemos conversar 15 minutos esta semana?\n\nAbra√ßo!', favorito: false },
-    { nome: 'üéØ Abordagem Direta', corpo: 'Ol√° {{nome}},\n\nTrabalhando como {{cargo}} na {{empresa}}, voc√™ certamente lida com [problema que voc√™ resolve].\n\nAjudo empresas como a sua a [benef√≠cio principal]. Posso mostrar como em uma conversa r√°pida?\n\nAguardo seu retorno!', favorito: false },
+    { nome: '\ud83e\udd1d Conex\u00e3o Direta', corpo: 'Ol\u00e1 {{nome}},\n\nVi seu perfil e fiquei impressionado com sua trajet\u00f3ria como {{cargo}} na {{empresa}}.\n\nGostaria de me conectar e trocar experi\u00eancias sobre o mercado{{cidade ? " em " + cidade : ""}}.\n\nAt\u00e9 logo!', favorito: true },
+    { nome: '\ud83d\udcbc Proposta de Parceria', corpo: 'Ol\u00e1 {{nome}},\n\nSou da [sua empresa] e acredito que h\u00e1 uma sinergia interessante entre o seu trabalho como {{cargo}} na {{empresa}} e o que fazemos.\n\nPodemos conversar 15 minutos esta semana?\n\nAbra\u00e7o!', favorito: false },
+    { nome: '\ud83c\udfaf Abordagem Direta', corpo: 'Ol\u00e1 {{nome}},\n\nTrabalhando como {{cargo}} na {{empresa}}, voc\u00ea certamente lida com [problema que voc\u00ea resolve].\n\nAjudo empresas como a sua a [benef\u00edcio principal]. Posso mostrar como em uma conversa r\u00e1pida?\n\nAguardo seu retorno!', favorito: false },
   ];
   await sb.from('templates').insert(defaults.map(t => ({ ...t, user_id: user.id })));
 }
 
-// ‚îÄ‚îÄ DASHBOARD ‚îÄ‚îÄ
+// \u2500\u2500 DASHBOARD \u2500\u2500
 function atualizarDashboard() {
   document.getElementById('stat-total').textContent = contatos.length;
   document.getElementById('stat-pendentes').textContent = contatos.filter(c => c.status === 'pendente').length;
@@ -851,7 +851,7 @@ function atualizarDashboard() {
   document.getElementById('stat-respondidos').textContent = contatos.filter(c => c.status === 'respondido').length;
   const recentes = contatos.slice(0, 5);
   const el = document.getElementById('dashboard-recentes');
-  if (!recentes.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">üîé</div><p>Nenhum prospect ainda.</p><small>V√° em "Buscar Prospects" para come√ßar!</small></div>'; return; }
+  if (!recentes.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">\ud83d\udd0e</div><p>Nenhum prospect ainda.</p><small>V\u00e1 em "Buscar Prospects" para come\u00e7ar!</small></div>'; return; }
   el.innerHTML = `<table>
     <thead><tr><th>Nome</th><th>Empresa</th><th>Local</th><th>Status</th></tr></thead>
     <tbody>${recentes.map(c => `<tr>
@@ -859,13 +859,13 @@ function atualizarDashboard() {
         <div class="prospect-foto">${(c.foto_url ? `<img src="${c.foto_url}" onerror="this.style.display='none'">` : '')}${iniciais(c.nome)}</div>
         <div><div class="prospect-nome">${c.nome}</div><div class="prospect-cargo">${c.cargo || ''}</div></div>
       </div></td>
-      <td>${c.empresa || '‚Äî'}</td>
-      <td>${[c.cidade, c.estado].filter(Boolean).join(', ') || '‚Äî'}</td>
+      <td>${c.empresa || '\u2014'}</td>
+      <td>${[c.cidade, c.estado].filter(Boolean).join(', ') || '\u2014'}</td>
       <td><span class="status-badge status-${c.status}">${labelStatus(c.status)}</span></td>
     </tr>`).join('')}</tbody></table>`;
 }
 
-// ‚îÄ‚îÄ BUSCAR PROSPECTS (Apollo.io) ‚îÄ‚îÄ
+// \u2500\u2500 BUSCAR PROSPECTS (Apollo.io) \u2500\u2500
 async function buscarProspects() {
   const cargo   = document.getElementById('f-cargo').value.trim();
   const funcao  = document.getElementById('f-funcao').value.trim();
@@ -881,14 +881,14 @@ async function buscarProspects() {
   if (titles.length) body.person_titles = titles;
   if (empresa) body.organization_names = [empresa];
 
-  // Localiza√ß√£o: Apollo usa "city, state, Brazil"
+  // Localiza\u00e7\u00e3o: Apollo usa "city, state, Brazil"
   const locParts = [cidade, estado, 'Brazil'].filter(Boolean);
   if (locParts.length > 1) body.person_locations = [locParts.join(', ')];
 
   try {
     const res = await fetch('/api/apollo', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
 
@@ -897,7 +897,7 @@ async function buscarProspects() {
     const pessoas = json.people || [];
 
     if (!pessoas.length) {
-      el.innerHTML = `<div class="vazio"><div class="icone-vazio">ü§∑</div><p>Nenhum resultado encontrado.</p><small>Tente filtros diferentes ou menos espec√≠ficos.</small></div>`;
+      el.innerHTML = `<div class="vazio"><div class="icone-vazio">\ud83e\udd37</div><p>Nenhum resultado encontrado.</p><small>Tente filtros diferentes ou menos espec\u00edficos.</small></div>`;
       return;
     }
 
@@ -920,27 +920,27 @@ async function buscarProspects() {
             <div class="info">
               <div class="nome">${nome}</div>
               ${cargo_ ? `<div class="cargo">${cargo_}</div>` : ''}
-              ${emp ? `<div class="empresa">üè¢ ${emp}</div>` : ''}
-              ${cid || est ? `<div class="local">üìç ${[cid, est].filter(Boolean).join(', ')}</div>` : ''}
-              ${url ? `<a href="${url}" target="_blank" style="font-size:11px;color:var(--azul);display:block;margin-top:2px;">Ver no LinkedIn ‚Üó</a>` : ''}
+              ${emp ? `<div class="empresa">\ud83c\udfe2 ${emp}</div>` : ''}
+              ${cid || est ? `<div class="local">\ud83d\udccd ${[cid, est].filter(Boolean).join(', ')}</div>` : ''}
+              ${url ? `<a href="${url}" target="_blank" style="font-size:11px;color:var(--azul);display:block;margin-top:2px;">Ver no LinkedIn \u2197</a>` : ''}
               <button id="btn-add-${i}" class="btn-add ${jaAdicionado ? 'adicionado' : ''}" onclick="adicionarProspectDaBusca(${i}, '${nome.replace(/'/g,"\\'")}','${cargo_.replace(/'/g,"\\'")}','','${emp.replace(/'/g,"\\'")}','${cid.replace(/'/g,"\\'")}','${est}','${url}','${foto}')" ${jaAdicionado ? 'disabled' : ''}>
-                ${jaAdicionado ? '‚úì Adicionado' : '+ Adicionar'}
+                ${jaAdicionado ? '\u2713 Adicionado' : '+ Adicionar'}
               </button>
             </div>
           </div>`;
         }).join('')}
       </div>`;
   } catch(e) {
-    // Erro CORS ou outro: mostrar mensagem √∫til
+    // Erro CORS ou outro: mostrar mensagem \u00fatil
     if (e.message.includes('Failed to fetch') || e.message.includes('CORS') || e.message.includes('NetworkError')) {
       el.innerHTML = `
         <div class="card"><div class="card-body">
           <div style="text-align:center;padding:20px;">
-            <div style="font-size:36px;margin-bottom:12px;">‚ö†Ô∏è</div>
-            <p style="font-weight:700;margin-bottom:8px;">Restri√ß√£o CORS do Apollo.io</p>
+            <div style="font-size:36px;margin-bottom:12px;">\u26a0\ufe0f</div>
+            <p style="font-weight:700;margin-bottom:8px;">Restri\u00e7\u00e3o CORS do Apollo.io</p>
             <p style="font-size:13px;color:var(--cinza-600);max-width:480px;margin:0 auto 16px;">
-              A API do Apollo.io bloqueia chamadas diretas do navegador por seguran√ßa.<br>
-              <strong>Solu√ß√£o:</strong> Adicione prospects manualmente ou importe um CSV do Apollo.io.
+              A API do Apollo.io bloqueia chamadas diretas do navegador por seguran\u00e7a.<br>
+              <strong>Solu\u00e7\u00e3o:</strong> Adicione prospects manualmente ou importe um CSV do Apollo.io.
             </p>
             <button class="btn-acao btn-azul" onclick="abrirModalAdicionarManual()" style="padding:10px 20px;font-size:13px;">+ Adicionar manualmente</button>
             <p style="font-size:11px;color:var(--cinza-400);margin-top:12px;">
@@ -959,43 +959,43 @@ async function adicionarProspectDaBusca(idx, nome, cargo, funcao, empresa, cidad
   const { error } = await sb.from('prospects').insert([{ user_id: user.id, nome, cargo, funcao, empresa, cidade, estado, linkedin_url, foto_url, status: 'pendente' }]);
   if (error) { mostrarToast('Erro ao adicionar: ' + error.message); return; }
   const btn = document.getElementById('btn-add-' + idx);
-  if (btn) { btn.textContent = '‚úì Adicionado'; btn.classList.add('adicionado'); btn.disabled = true; }
+  if (btn) { btn.textContent = '\u2713 Adicionado'; btn.classList.add('adicionado'); btn.disabled = true; }
   await carregarContatos();
   atualizarDashboard();
-  mostrarToast('‚úÖ ' + nome + ' adicionado!', 'verde');
+  mostrarToast('\u2705 ' + nome + ' adicionado!', 'verde');
 }
 
-// ‚îÄ‚îÄ CONTATOS ‚îÄ‚îÄ
+// \u2500\u2500 CONTATOS \u2500\u2500
 function renderizarContatos(lista) {
   const el = document.getElementById('tabela-contatos');
   const filtrados = lista || contatos;
   if (!filtrados.length) {
-    el.innerHTML = '<div class="vazio"><div class="icone-vazio">üë•</div><p>Nenhum contato encontrado.</p><small>Busque prospects ou adicione manualmente.</small></div>';
+    el.innerHTML = '<div class="vazio"><div class="icone-vazio">\ud83d\udc65</div><p>Nenhum contato encontrado.</p><small>Busque prospects ou adicione manualmente.</small></div>';
     return;
   }
   el.innerHTML = `<table>
-    <thead><tr><th>Nome</th><th>Cargo</th><th>Empresa</th><th>Local</th><th>Status</th><th>A√ß√µes</th></tr></thead>
+    <thead><tr><th>Nome</th><th>Cargo</th><th>Empresa</th><th>Local</th><th>Status</th><th>A\u00e7\u00f5es</th></tr></thead>
     <tbody>${filtrados.map(c => `<tr>
       <td><div class="prospect-info">
         <div class="prospect-foto">${c.foto_url ? `<img src="${c.foto_url}" onerror="this.style.display='none'">` : ''}${iniciais(c.nome)}</div>
         <div><div class="prospect-nome">${c.nome}</div>${c.funcao ? `<div class="prospect-cargo">${c.funcao}</div>` : ''}</div>
       </div></td>
-      <td style="font-size:13px;">${c.cargo || '‚Äî'}</td>
-      <td style="font-size:13px;">${c.empresa || '‚Äî'}</td>
-      <td style="font-size:13px;">${[c.cidade, c.estado].filter(Boolean).join(', ') || '‚Äî'}</td>
+      <td style="font-size:13px;">${c.cargo || '\u2014'}</td>
+      <td style="font-size:13px;">${c.empresa || '\u2014'}</td>
+      <td style="font-size:13px;">${[c.cidade, c.estado].filter(Boolean).join(', ') || '\u2014'}</td>
       <td>
         <select class="filtro-select" style="font-size:11px;padding:4px 8px;" onchange="atualizarStatus('${c.id}', this.value)">
-          <option value="pendente" ${c.status === 'pendente' ? 'selected' : ''}>‚è≥ Pendente</option>
-          <option value="enviado" ${c.status === 'enviado' ? 'selected' : ''}>üì§ Enviado</option>
-          <option value="respondido" ${c.status === 'respondido' ? 'selected' : ''}>‚úÖ Respondido</option>
+          <option value="pendente" ${c.status === 'pendente' ? 'selected' : ''}>\u23f3 Pendente</option>
+          <option value="enviado" ${c.status === 'enviado' ? 'selected' : ''}>\ud83d\udce4 Enviado</option>
+          <option value="respondido" ${c.status === 'respondido' ? 'selected' : ''}>\u2705 Respondido</option>
         </select>
       </td>
       <td>
         <div class="acoes">
-          <button class="btn-acao btn-azul" onclick="irParaMensagem('${c.id}')" title="Gerar mensagem">‚úçÔ∏è</button>
-          ${c.linkedin_url ? `<button class="btn-acao btn-azul" onclick="window.open('${c.linkedin_url}','_blank')" title="Abrir LinkedIn">üîó</button>` : ''}
-          <button class="btn-acao btn-cinza" onclick="abrirModalNotas('${c.id}','${c.nome.replace(/'/g,"\\'")}','${(c.notas||'').replace(/'/g,"\\'").replace(/\n/g,'\\n')}')" title="Notas">üìù</button>
-          <button class="btn-acao btn-vermelho" onclick="removerContato('${c.id}','${c.nome.replace(/'/g,"\\'")}')">üóëÔ∏è</button>
+          <button class="btn-acao btn-azul" onclick="irParaMensagem('${c.id}')" title="Gerar mensagem">\u270d\ufe0f</button>
+          ${c.linkedin_url ? `<button class="btn-acao btn-azul" onclick="window.open('${c.linkedin_url}','_blank')" title="Abrir LinkedIn">\ud83d\udd17</button>` : ''}
+          <button class="btn-acao btn-cinza" onclick="abrirModalNotas('${c.id}','${c.nome.replace(/'/g,"\\'")}','${(c.notas||'').replace(/'/g,"\\'").replace(/\n/g,'\\n')}')" title="Notas">\ud83d\udcdd</button>
+          <button class="btn-acao btn-vermelho" onclick="removerContato('${c.id}','${c.nome.replace(/'/g,"\\'")}')">\ud83d\uddd1\ufe0f</button>
         </div>
       </td>
     </tr>`).join('')}</tbody></table>`;
@@ -1026,7 +1026,7 @@ async function atualizarStatus(id, status) {
 }
 
 async function removerContato(id, nome) {
-  if (!confirm(`Remover "${nome}"? Esta a√ß√£o n√£o pode ser desfeita.`)) return;
+  if (!confirm(`Remover "${nome}"? Esta a\u00e7\u00e3o n\u00e3o pode ser desfeita.`)) return;
   await sb.from('prospects').delete().eq('id', id);
   contatos = contatos.filter(c => c.id !== id);
   renderizarContatos();
@@ -1034,7 +1034,7 @@ async function removerContato(id, nome) {
   mostrarToast('Contato removido.');
 }
 
-// ‚îÄ‚îÄ ADICIONAR MANUALMENTE ‚îÄ‚îÄ
+// \u2500\u2500 ADICIONAR MANUALMENTE \u2500\u2500
 function abrirModalAdicionarManual() {
   ['p-nome','p-cargo','p-funcao','p-empresa','p-cidade','p-estado','p-linkedin'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('modal-prospect').classList.add('aberto');
@@ -1043,7 +1043,7 @@ function fecharModalProspect() { document.getElementById('modal-prospect').class
 
 async function salvarProspectManual() {
   const nome = document.getElementById('p-nome').value.trim();
-  if (!nome) { mostrarToast('O nome √© obrigat√≥rio.'); return; }
+  if (!nome) { mostrarToast('O nome \u00e9 obrigat\u00f3rio.'); return; }
   const { data: { user } } = await sb.auth.getUser();
   const novo = {
     user_id: user.id,
@@ -1062,10 +1062,10 @@ async function salvarProspectManual() {
   renderizarContatos();
   atualizarDashboard();
   fecharModalProspect();
-  mostrarToast('‚úÖ Prospect adicionado!', 'verde');
+  mostrarToast('\u2705 Prospect adicionado!', 'verde');
 }
 
-// ‚îÄ‚îÄ NOTAS ‚îÄ‚îÄ
+// \u2500\u2500 NOTAS \u2500\u2500
 function abrirModalNotas(id, nome, notas) {
   notasProspectId = id;
   document.getElementById('modal-notas-nome').textContent = nome;
@@ -1082,12 +1082,12 @@ async function salvarNotas() {
   mostrarToast('Notas salvas!', 'verde');
 }
 
-// ‚îÄ‚îÄ GERAR MENSAGEM ‚îÄ‚îÄ
+// \u2500\u2500 GERAR MENSAGEM \u2500\u2500
 function carregarSelectMensagem() {
   const sel = document.getElementById('sel-contato');
   const pendentes = contatos.filter(c => c.status === 'pendente');
   sel.innerHTML = '<option value="">-- Escolha um prospect --</option>' +
-    pendentes.map(c => `<option value="${c.id}">${c.nome}${c.empresa ? ' ‚Äî ' + c.empresa : ''}</option>`).join('');
+    pendentes.map(c => `<option value="${c.id}">${c.nome}${c.empresa ? ' \u2014 ' + c.empresa : ''}</option>`).join('');
   renderizarTemplatesGen();
 }
 
@@ -1098,7 +1098,7 @@ function atualizarPreview() {
   if (contatoSelecionado) {
     infoEl.innerHTML = `<div class="info-prospect">
       <div class="nome-dest">${contatoSelecionado.nome}</div>
-      <div class="detalhe">${[contatoSelecionado.cargo, contatoSelecionado.empresa, [contatoSelecionado.cidade, contatoSelecionado.estado].filter(Boolean).join('/')].filter(Boolean).join(' ¬∑ ')}</div>
+      <div class="detalhe">${[contatoSelecionado.cargo, contatoSelecionado.empresa, [contatoSelecionado.cidade, contatoSelecionado.estado].filter(Boolean).join('/')].filter(Boolean).join(' \u00b7 ')}</div>
     </div>`;
     document.getElementById('btn-abrir-linkedin').style.display = contatoSelecionado.linkedin_url ? 'block' : 'none';
   } else { infoEl.innerHTML = ''; document.getElementById('btn-abrir-linkedin').style.display = 'none'; }
@@ -1110,7 +1110,7 @@ function renderizarTemplatesGen() {
   if (!templates.length) { el.innerHTML = '<p style="color:var(--cinza-400);font-size:13px;">Nenhum template. Crie um em "Templates".</p>'; return; }
   el.innerHTML = templates.map(t => `
     <div class="template-opcao ${templateSelecionado?.id === t.id ? 'selecionado' : ''}" onclick="selecionarTemplate('${t.id}')">
-      <div class="t-nome">${t.favorito ? '‚≠ê ' : ''}${t.nome}</div>
+      <div class="t-nome">${t.favorito ? '\u2b50 ' : ''}${t.nome}</div>
       <div class="t-preview">${t.corpo.substring(0, 80)}...</div>
     </div>`).join('');
 }
@@ -1133,7 +1133,7 @@ function gerarPreview() {
     .replace(/\{\{nome\}\}/gi, c.nome.split(' ')[0])
     .replace(/\{\{nome_completo\}\}/gi, c.nome)
     .replace(/\{\{cargo\}\}/gi, c.cargo || 'profissional')
-    .replace(/\{\{funcao\}\}/gi, c.funcao || c.cargo || '√°rea')
+    .replace(/\{\{funcao\}\}/gi, c.funcao || c.cargo || '\u00e1rea')
     .replace(/\{\{empresa\}\}/gi, c.empresa || 'sua empresa')
     .replace(/\{\{cidade\}\}/gi, c.cidade || '')
     .replace(/\{\{estado\}\}/gi, c.estado || '');
@@ -1146,9 +1146,9 @@ async function copiarMensagem() {
   try {
     await navigator.clipboard.writeText(msg);
     const btn = document.getElementById('btn-copiar');
-    btn.textContent = '‚úÖ Copiado!'; btn.classList.add('copiado');
-    setTimeout(() => { btn.innerHTML = 'üìã Copiar mensagem'; btn.classList.remove('copiado'); }, 2500);
-    // Registrar c√≥pia
+    btn.textContent = '\u2705 Copiado!'; btn.classList.add('copiado');
+    setTimeout(() => { btn.innerHTML = '\ud83d\udccb Copiar mensagem'; btn.classList.remove('copiado'); }, 2500);
+    // Registrar c\u00f3pia
     if (contatoSelecionado) {
       await sb.from('prospects').update({ copiado_em: new Date().toISOString(), mensagem_enviada: msg }).eq('id', contatoSelecionado.id);
     }
@@ -1176,7 +1176,7 @@ async function marcarComoEnviado() {
   if (!contatoSelecionado) return;
   await atualizarStatus(contatoSelecionado.id, 'enviado');
   document.getElementById('acoes-pos-copia').style.display = 'none';
-  mostrarToast('‚úÖ Marcado como enviado!', 'verde');
+  mostrarToast('\u2705 Marcado como enviado!', 'verde');
 }
 
 function irParaMensagem(id) {
@@ -1187,21 +1187,21 @@ function irParaMensagem(id) {
   }, 100);
 }
 
-// ‚îÄ‚îÄ TEMPLATES ‚îÄ‚îÄ
+// \u2500\u2500 TEMPLATES \u2500\u2500
 function renderizarTemplates() {
   const el = document.getElementById('grade-templates');
-  if (!templates.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">üìã</div><p>Nenhum template criado.</p></div>'; return; }
+  if (!templates.length) { el.innerHTML = '<div class="vazio"><div class="icone-vazio">\ud83d\udccb</div><p>Nenhum template criado.</p></div>'; return; }
   el.innerHTML = templates.map(t => `
     <div class="template-card ${t.favorito ? 'favorito' : ''}">
       <div class="t-nome">
         ${t.nome}
-        <span class="${t.favorito ? 'estrela' : 'estrela-vazia'}" onclick="toggleFavorito('${t.id}',${t.favorito})" style="cursor:pointer;font-size:16px;">‚òÖ</span>
+        <span class="${t.favorito ? 'estrela' : 'estrela-vazia'}" onclick="toggleFavorito('${t.id}',${t.favorito})" style="cursor:pointer;font-size:16px;">\u2605</span>
       </div>
       <div class="t-corpo">${t.corpo}</div>
       <div style="font-size:11px;color:var(--cinza-400);margin-bottom:4px;">Usado ${t.usos || 0} vez(es)</div>
       <div class="t-acoes">
-        <button class="btn-acao btn-azul" onclick="editarTemplate('${t.id}')">‚úèÔ∏è Editar</button>
-        <button class="btn-acao btn-vermelho" onclick="deletarTemplate('${t.id}','${t.nome.replace(/'/g,"\\'")}')">üóëÔ∏è Apagar</button>
+        <button class="btn-acao btn-azul" onclick="editarTemplate('${t.id}')">\u270f\ufe0f Editar</button>
+        <button class="btn-acao btn-vermelho" onclick="deletarTemplate('${t.id}','${t.nome.replace(/'/g,"\\'")}')">\ud83d\uddd1\ufe0f Apagar</button>
       </div>
     </div>`).join('');
 }
@@ -1232,7 +1232,7 @@ async function salvarTemplate() {
   }
   fecharModalTemplate();
   renderizarTemplates();
-  mostrarToast('‚úÖ Template salvo!', 'verde');
+  mostrarToast('\u2705 Template salvo!', 'verde');
 }
 
 async function toggleFavorito(id, atual) {
@@ -1250,12 +1250,12 @@ async function deletarTemplate(id, nome) {
   mostrarToast('Template removido.');
 }
 
-// ‚îÄ‚îÄ UTILS ‚îÄ‚îÄ
+// \u2500\u2500 UTILS \u2500\u2500
 function iniciais(nome) {
   return (nome || '?').split(' ').slice(0,2).map(p => p[0]).join('').toUpperCase();
 }
 function labelStatus(s) {
-  return { pendente: '‚è≥ Pendente', enviado: 'üì§ Enviado', respondido: '‚úÖ Respondido' }[s] || s;
+  return { pendente: '\u23f3 Pendente', enviado: '\ud83d\udce4 Enviado', respondido: '\u2705 Respondido' }[s] || s;
 }
 function mostrarToast(msg, tipo) {
   const el = document.getElementById('toast');
@@ -1265,7 +1265,7 @@ function mostrarToast(msg, tipo) {
   setTimeout(() => { el.style.display = 'none'; }, 3000);
 }
 
-// ‚îÄ‚îÄ LGPD ‚îÄ‚îÄ
+// \u2500\u2500 LGPD \u2500\u2500
 function verificarLGPD() {
   if (!localStorage.getItem('lgpd_ok')) document.getElementById('lgpd-banner').style.display = 'flex';
 }
@@ -1274,12 +1274,12 @@ function aceitarLGPD() {
   document.getElementById('lgpd-banner').style.display = 'none';
 }
 
-// ‚îÄ‚îÄ ONBOARDING ‚îÄ‚îÄ
+// \u2500\u2500 ONBOARDING \u2500\u2500
 const passosOnb = [
-  { target: '#nav-buscar', titulo: 'üîé Buscar Prospects', desc: 'Aqui voc√™ encontra profissionais no Apollo.io com filtros de cargo, empresa, cidade e estado.' },
-  { target: '#nav-contatos', titulo: 'üë• Meus Contatos', desc: 'Todos os prospects que voc√™ adicionou ficam aqui. Voc√™ pode filtrar, atualizar o status e adicionar notas.' },
-  { target: '#nav-mensagem', titulo: '‚úçÔ∏è Gerar Mensagem', desc: 'Selecione um prospect e um template ‚Äî o app monta a mensagem personalizada para voc√™ copiar com 1 clique.' },
-  { target: '#nav-templates', titulo: 'üìã Templates', desc: 'Crie seus modelos de mensagem com vari√°veis como {{nome}}, {{cargo}} e {{empresa}}. J√° criamos 3 para voc√™ come√ßar!' },
+  { target: '#nav-buscar', titulo: '\ud83d\udd0e Buscar Prospects', desc: 'Aqui voc\u00ea encontra profissionais no Apollo.io com filtros de cargo, empresa, cidade e estado.' },
+  { target: '#nav-contatos', titulo: '\ud83d\udc65 Meus Contatos', desc: 'Todos os prospects que voc\u00ea adicionou ficam aqui. Voc\u00ea pode filtrar, atualizar o status e adicionar notas.' },
+  { target: '#nav-mensagem', titulo: '\u270d\ufe0f Gerar Mensagem', desc: 'Selecione um prospect e um template \u2014 o app monta a mensagem personalizada para voc\u00ea copiar com 1 clique.' },
+  { target: '#nav-templates', titulo: '\ud83d\udccb Templates', desc: 'Crie seus modelos de mensagem com vari\u00e1veis como {{nome}}, {{cargo}} e {{empresa}}. J\u00e1 criamos 3 para voc\u00ea come\u00e7ar!' },
 ];
 let passoAtual = 0;
 
@@ -1300,7 +1300,7 @@ function mostrarPassoOnb(i) {
   document.getElementById('onb-passo').textContent = `Passo ${i+1} de ${passosOnb.length}`;
   document.getElementById('onb-titulo').textContent = p.titulo;
   document.getElementById('onb-desc').textContent = p.desc;
-  document.getElementById('onb-btn').textContent = i < passosOnb.length - 1 ? 'Pr√≥ximo ‚Üí' : '‚úì Entendi!';
+  document.getElementById('onb-btn').textContent = i < passosOnb.length - 1 ? 'Pr\u00f3ximo \u2192' : '\u2713 Entendi!';
   if (el) {
     const r = el.getBoundingClientRect();
     const tt = document.getElementById('onb-tooltip');
@@ -1318,10 +1318,10 @@ function pularOnboarding() {
   localStorage.setItem('onb_done', '1');
   document.getElementById('onb-overlay').style.display = 'none';
   document.getElementById('onb-tooltip').style.display = 'none';
-  mostrarToast('üéâ Bem-vindo ao LinkedReach!', 'verde');
+  mostrarToast('\ud83c\udf89 Bem-vindo ao LinkedReach!', 'verde');
 }
 
-// ‚îÄ‚îÄ INIT ‚îÄ‚îÄ
+// \u2500\u2500 INIT \u2500\u2500
 verificarSessao();
 </script>
 </body>
